@@ -87,4 +87,9 @@ public class PlayerMovement : MonoBehaviour
         }
         return false;
     }
+
+    public PlayerId GetPlayerId()
+    {
+        return playerId;
+    }
 }
