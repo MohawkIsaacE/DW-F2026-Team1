@@ -378,6 +378,7 @@ GameObject:
   - component: {fileID: 7982364782592368367}
   - component: {fileID: 1200239214019510939}
   - component: {fileID: 7729020953074524922}
+  - component: {fileID: 1131006934845510022}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -493,8 +494,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   Gun: {fileID: 0}
   ShootAction: {fileID: 0}
-  shotCooldown: 0.2
-  shotTimer: 0
 --- !u!50 &7729020953074524922
 Rigidbody2D:
   serializedVersion: 5
@@ -522,3 +521,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1131006934845510022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8362540581078615610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5c5f38760f24e74d82c2570ebb46d96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  playerId: 0
+  moveSpeed: 6
+  allowJump: 1
+  jumpSpeed: 9
