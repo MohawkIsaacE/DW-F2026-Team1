@@ -47,6 +47,8 @@ public class Player : MonoBehaviour
         // Shoot a raycast and check if it hit their head
         RaycastHit2D hit = Physics2D.Raycast(AimLine.transform.position, Gun.transform.up, shotDistance);
 
+        // Check if the hit target is a player (kill), if not then exit
+        if (hit == false) return;
         if (hit.collider.gameObject.GetComponent<PlayerMovement>() == null) return;
         if (hit.collider.gameObject.GetComponent<PlayerMovement>().GetPlayerId() != player.GetPlayerId())
         {
