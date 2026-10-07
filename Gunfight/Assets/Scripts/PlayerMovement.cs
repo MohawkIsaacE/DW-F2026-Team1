@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private PlayerId playerId = PlayerId.Player1;
     [SerializeField] private float moveSpeed = 6f;
     [SerializeField] private bool allowJump = true;
-    [SerializeField] private float jumpSpeed = 9f;
+    [SerializeField] private float jumpSpeed = 20f;
 
     private Rigidbody2D rb;
     private InputAction moveAction;

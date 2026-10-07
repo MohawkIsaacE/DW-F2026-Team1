@@ -1,31 +1,23 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEditor;
+using UnityEngine;
 
 public class Player : MonoBehaviour
 {
 
-    [SerializeField] private GameObject Spinner;
-    [SerializeField] private GameObject AimLine;
+    [SerializeField] private GameObject Gun;
     [SerializeField] private InputActionReference ShootAction;
-    [SerializeField] private GameObject GunPrefab;
-
     private float shotCooldown = 0.2f;
     private float shotTimer;
+    private float rotateSpeed = 100f;
     private float angle;
-    private float shotDistance = 100f;
-
-    public bool hasGun;
-
-    private PlayerMovement player;
+    private float shotDistance = 10f;
+    private LayerMask layerMask;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         shotTimer = shotCooldown;
-        player = GetComponent<PlayerMovement>();
-        hasGun = false;
-        Spinner.SetActive(false);
     }
 
     // Update is called once per frame
@@ -38,42 +30,40 @@ public class Player : MonoBehaviour
             shotTimer -= Time.deltaTime;
         }
         // Check if shooting can happen
-        if (hasGun && ShootAction.action.WasPressedThisFrame() && shotTimer <= 0f)
+        if (ShootAction.action.IsPressed() && shotTimer <= 0f)
         {
             Shoot();
             shotTimer = shotCooldown;
         }
 
-        if (hasGun) RotateGun();
+        RotateGun();
     }
 
     void Shoot()
     {
+
+        // Calculate shoot direction from angle
+
         // Shoot a raycast and check if it hit their head
-        RaycastHit2D hit = Physics2D.Raycast(AimLine.transform.position, Spinner.transform.up, shotDistance);
-        
-        // Early exit if the player misses a shot
-        //if (hit.collider.gameObject.GetComponent<PlayerMovement>() == null || hit == false) return;
+        RaycastHit2D hit = Physics2D.Raycast(Gun.transform.position, Gun.transform.up, shotDistance);
+        Debug.Log(hit.collider.gameObject.name);
 
-        if (hit != false && hit.collider.gameObject.name == "Head")
-        {
-            Destroy(hit.collider.gameObject);
-        }
-
-        // Throw the gun after you shoot
-        DropGun();
     }
 
     void RotateGun()
     {
+<<<<<<< Updated upstream
+        angle += 60f * Time.deltaTime;
+        Gun.transform.rotation = Quaternion.Euler(0, 0, angle);
+=======
         // Decide which way to spin based on player number
         if (player.GetPlayerId() == PlayerMovement.PlayerId.Player1)
         {
-            angle -= 60f * Time.deltaTime;
+            angle -= rotateSpeed * Time.deltaTime;
         }
         else
         {
-            angle += 60f * Time.deltaTime;
+            angle += rotateSpeed * Time.deltaTime;
         }
         Spinner.transform.rotation = Quaternion.Euler(0, 0, angle);
     }
@@ -102,6 +92,10 @@ public class Player : MonoBehaviour
         GunPrefab.transform.SetParent(GameObject.Find("GunStorage").transform);
 
         // Throw the gun away
-        GunPrefab.GetComponent<Gun>().Toss();
+        GunPrefab.GetComponent<Gun>().Respawn();
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
     }
 }
