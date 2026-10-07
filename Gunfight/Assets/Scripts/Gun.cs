@@ -3,16 +3,25 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D rb;
     bool isHeld;
     float respawnTimer;
     float angle;
 
+    [SerializeField] private Transform SpawnPointParent;
+    private Transform[] SpawnPoints;
+
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
         isHeld = false;
         respawnTimer = 0f;
+
+        // Set Spawn Points
+        SpawnPoints = new Transform[SpawnPointParent.childCount];
+        for (int i = 0; i < SpawnPoints.Length; i++)
+        {
+            SpawnPoints[i] = SpawnPointParent.GetChild(i);
+        }
+
     }
 
     private void Update()
@@ -21,7 +30,7 @@ public class Gun : MonoBehaviour
         {
             respawnTimer -= Time.deltaTime;
             // Spin when thrown
-            angle += rb.linearVelocityX * Time.deltaTime * 70f;
+            angle += Time.deltaTime * 70f;
             transform.rotation = Quaternion.Euler(0, 0, angle);
         }
 
@@ -32,28 +41,27 @@ public class Gun : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collision.gameObject.GetComponent<Player>() != null 
-            && !collision.gameObject.GetComponent<Player>().hasGun
+        if (collider.gameObject.GetComponent<Player>() != null 
+            && !collider.gameObject.GetComponent<Player>().hasGun
             && !isHeld
             && respawnTimer <= 0)
         {
             isHeld = true;
 
-            collision.gameObject.GetComponent<Player>().PickupGun(gameObject);
+            collider.gameObject.GetComponent<Player>().PickupGun(gameObject);
         }
     }
 
-    public void Toss()
+    public void Respawn()
     {
         isHeld = false;
         respawnTimer = 2f;
         angle = 0;
 
-        transform.position = new Vector2(transform.position.x, transform.position.y + 2);
-        rb.linearVelocityY = 0f;
-        int randomAngle = (int)Random.Range(-1, 2);
-        rb.AddForce(new Vector2(randomAngle * 5f, 1 * 5f), ForceMode2D.Impulse);
+        int randomSpawn = (int)Random.Range(0, SpawnPoints.Length);
+        transform.position = SpawnPoints[randomSpawn].transform.position;
+
     }
 }

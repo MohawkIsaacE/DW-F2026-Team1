@@ -102,6 +102,6 @@ public class Player : MonoBehaviour
         GunPrefab.transform.SetParent(GameObject.Find("GunStorage").transform);
 
         // Throw the gun away
-        GunPrefab.GetComponent<Gun>().Toss();
+        GunPrefab.GetComponent<Gun>().Respawn();
     }
 }
