@@ -93,6 +93,9 @@ public class Player : MonoBehaviour
 
         // Throw the gun away
         GunPrefab.GetComponent<Gun>().Respawn();
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
 }
