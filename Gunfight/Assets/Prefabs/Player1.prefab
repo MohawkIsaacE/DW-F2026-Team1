@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5408823177571236274}
   - component: {fileID: 1666611755596643750}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: ShootLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 5840792130657153066}
   - component: {fileID: 5318742961934632420}
   - component: {fileID: 331016416351552673}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -240,7 +240,7 @@ GameObject:
   - component: {fileID: 8308091831820228762}
   - component: {fileID: 6677948192838760933}
   - component: {fileID: 5278350926004362869}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -377,7 +377,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3496716865622551260}
   - component: {fileID: 5796133978982484782}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Spinner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -473,7 +473,7 @@ GameObject:
   - component: {fileID: 1200239214019510939}
   - component: {fileID: 7729020953074524922}
   - component: {fileID: 1131006934845510022}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Player1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

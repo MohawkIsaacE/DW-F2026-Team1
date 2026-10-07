@@ -57,12 +57,11 @@ public class Player : MonoBehaviour
 
         if (hit != false && hit.collider.gameObject.name == "Head")
         {
-            Destroy(hit.collider.gameObject.transform.parent);
+            Destroy(hit.collider.gameObject);
         }
-        else
-        {
-            DropGun();
-        }
+
+        // Throw the gun after you shoot
+        DropGun();
     }
 
     void RotateGun()

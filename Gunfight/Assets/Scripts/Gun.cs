@@ -6,11 +6,13 @@ public class Gun : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     bool isHeld;
     float respawnTimer;
+    float angle;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         isHeld = false;
+        respawnTimer = 0f;
     }
 
     private void Update()
@@ -18,7 +20,15 @@ public class Gun : MonoBehaviour
         if (!isHeld)
         {
             respawnTimer -= Time.deltaTime;
-            if (respawnTimer <= 0) gameObject.GetComponent<BoxCollider2D>().enabled = true;
+            // Spin when thrown
+            angle += rb.linearVelocityX * Time.deltaTime * 70f;
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
+
+        if (isHeld)
+        {
+            transform.position = transform.parent.position;
+            transform.rotation = Quaternion.identity;
         }
     }
 
@@ -32,8 +42,6 @@ public class Gun : MonoBehaviour
             isHeld = true;
 
             collision.gameObject.GetComponent<Player>().PickupGun(gameObject);
-
-            gameObject.GetComponent<BoxCollider2D>().enabled = false;
         }
     }
 
@@ -41,9 +49,11 @@ public class Gun : MonoBehaviour
     {
         isHeld = false;
         respawnTimer = 2f;
+        angle = 0;
 
-        gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-
-        rb.AddForce(new Vector2(Random.Range(-0.8f, 0.8f) * 10f, Random.Range(0.3f, 0.7f) * 10f), ForceMode2D.Impulse);
+        transform.position = new Vector2(transform.position.x, transform.position.y + 2);
+        rb.linearVelocityY = 0f;
+        int randomAngle = (int)Random.Range(-1, 2);
+        rb.AddForce(new Vector2(randomAngle * 5f, 1 * 5f), ForceMode2D.Impulse);
     }
 }
