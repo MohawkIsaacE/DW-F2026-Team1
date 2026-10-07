@@ -1,23 +1,28 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine;
+using UnityEditor;
 
 public class Player : MonoBehaviour
 {
 
     [SerializeField] private GameObject Gun;
+    [SerializeField] private GameObject GunPrefab;
+    [SerializeField] private PlayerMovement player;
     [SerializeField] private InputActionReference ShootAction;
+    private GameObject Spinner;
     private float shotCooldown = 0.2f;
     private float shotTimer;
     private float rotateSpeed = 100f;
     private float angle;
     private float shotDistance = 10f;
+    public bool hasGun = false;
     private LayerMask layerMask;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         shotTimer = shotCooldown;
+        Spinner = GameObject.Find("Spinner");
     }
 
     // Update is called once per frame
@@ -52,10 +57,6 @@ public class Player : MonoBehaviour
 
     void RotateGun()
     {
-<<<<<<< Updated upstream
-        angle += 60f * Time.deltaTime;
-        Gun.transform.rotation = Quaternion.Euler(0, 0, angle);
-=======
         // Decide which way to spin based on player number
         if (player.GetPlayerId() == PlayerMovement.PlayerId.Player1)
         {
@@ -93,9 +94,5 @@ public class Player : MonoBehaviour
 
         // Throw the gun away
         GunPrefab.GetComponent<Gun>().Respawn();
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     }
 }
