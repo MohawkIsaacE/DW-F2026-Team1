@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField] private InputActionReference ShootAction;
     private float shotCooldown = 0.2f;
     private float shotTimer;
+    private float rotateSpeed = 100f;
     private float angle;
     private float shotDistance = 10f;
     private LayerMask layerMask;
@@ -51,7 +52,47 @@ public class Player : MonoBehaviour
 
     void RotateGun()
     {
+<<<<<<< Updated upstream
         angle += 60f * Time.deltaTime;
         Gun.transform.rotation = Quaternion.Euler(0, 0, angle);
+=======
+        // Decide which way to spin based on player number
+        if (player.GetPlayerId() == PlayerMovement.PlayerId.Player1)
+        {
+            angle -= rotateSpeed * Time.deltaTime;
+        }
+        else
+        {
+            angle += rotateSpeed * Time.deltaTime;
+        }
+        Spinner.transform.rotation = Quaternion.Euler(0, 0, angle);
+    }
+
+    public void PickupGun(GameObject gunReference)
+    {
+        hasGun = true;
+
+        // Activate the spinner so the player can aim
+        Spinner.SetActive(true);
+        angle = 0f;
+
+        // Hold the gun
+        GunPrefab = gunReference;
+        GunPrefab.transform.SetParent(transform);
+    }
+
+    void DropGun()
+    {
+        hasGun = false;
+
+        // Deactivate the spinner when you lose the gun
+        Spinner.SetActive(false);
+
+        // Stop holding the gun
+        GunPrefab.transform.SetParent(GameObject.Find("GunStorage").transform);
+
+        // Throw the gun away
+        GunPrefab.GetComponent<Gun>().Respawn();
+>>>>>>> Stashed changes
     }
 }
