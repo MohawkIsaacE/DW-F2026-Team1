@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] private InputActionReference ShootAction;
     [SerializeField] private GameObject GunPrefab;
     [SerializeField] private SpriteRenderer GunSprite;
+    [SerializeField] private Transform body;
     [SerializeField] private GameObject GameMaster;
 
     private float shotCooldown = 0.2f;
@@ -26,6 +27,12 @@ public class Player : MonoBehaviour
 
     [SerializeField] private Collider2D Player1Collider;
     [SerializeField] private Collider2D Player2Collider;
+
+    public bool flipped_facing = false;
+    [Header("Particle Effects")]
+    private GameObject smokeParticle;
+    private GameObject sparkParticle;
+    private GameObject bloodParticle;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -47,8 +54,11 @@ public class Player : MonoBehaviour
         {
             layerMask = LayerMask.GetMask("Ignore Raycast", "Player2Head");
         }
-            
 
+        // Set up the particles for use
+        sparkParticle = GameObject.Find("HitParticle");
+        smokeParticle = GameObject.Find("ShootParticle");
+        bloodParticle = GameObject.Find("BloodParticle");
     }
 
     // Update is called once per frame
@@ -68,17 +78,56 @@ public class Player : MonoBehaviour
         }
 
         if (hasGun) RotateGun();
+        UpdateFacing();
     }
 
+    void UpdateFacing()
+    {
+        if (body == null)
+        {
+            body = transform.Find("Body");
+        }
+        GameObject player1 = GameObject.Find("Player1");
+        GameObject player2 = GameObject.Find("Player2");
+        float p1_pos_x = player1.transform.position.x;
+        float p2_pos_x = player2.transform.position.x;
+        bool flip_facing = false;
+        if (player.GetPlayerId() == PlayerMovement.PlayerId.Player1)
+        {
+            if (p1_pos_x > p2_pos_x)
+                {
+                flip_facing = true;
+                }
+        }
+        if (player.GetPlayerId() == PlayerMovement.PlayerId.Player2)
+        {
+            if (p2_pos_x > p1_pos_x)
+            {
+                flip_facing = true;
+            }
+        }
+
+
+        SetFacing(flip_facing);
+    }
+    void SetFacing(bool facing)
+    {
+        body.GetComponent<SpriteRenderer>().flipX = facing;
+        flipped_facing = facing;
+    }
     void Shoot()
     {
+        // Play shoot particle at the gun position
+        smokeParticle.transform.position = GunPrefab.transform.position;
+        smokeParticle.GetComponent<ParticleSystem>().Play();
+
         // Shoot a raycast and check if it hit their head
 
         RaycastHit2D hit = Physics2D.Raycast(Spinner.transform.position, Spinner.transform.up, shotDistance, ~layerMask); ;
 
         try
         {
-            Debug.Log(hit.collider.gameObject.name);
+            //Debug.Log(hit.collider.gameObject.name);
         } 
         catch (NullReferenceException ex)
         {
@@ -94,6 +143,8 @@ public class Player : MonoBehaviour
                 GameMasterScript.KillSequence(gameObject);
 
                 // Play special blood effect
+                bloodParticle.transform.position = hit.collider.transform.position;
+                bloodParticle.GetComponent<ParticleSystem>().Play();
             }
         }
         if (player.GetPlayerId() == PlayerMovement.PlayerId.Player2)
@@ -104,6 +155,8 @@ public class Player : MonoBehaviour
                 GameMasterScript.KillSequence(gameObject);
 
                 // Play special blood effect
+                bloodParticle.transform.position = hit.collider.transform.position;
+                bloodParticle.GetComponent<ParticleSystem>().Play();
             }
         }
 
@@ -113,6 +166,8 @@ public class Player : MonoBehaviour
         if (hit.collider.gameObject.tag == "SolidObject")
         {
             // Play special miss effect
+            sparkParticle.transform.position = hit.point;
+            sparkParticle.GetComponent<ParticleSystem>().Play();
         }
         // Throw the gun after you shoot
         DropGun();

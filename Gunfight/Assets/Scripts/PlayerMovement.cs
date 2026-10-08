@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.GraphicsBuffer;
@@ -33,9 +34,15 @@ public class PlayerMovement : MonoBehaviour
     private readonly ContactPoint2D[] contacts = new ContactPoint2D[8];
     private float jumpBufferTimer;
     private bool jumpReleased;
-
+    private Player player_movement;
 
     public PlayerId Id => playerId;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        player_movement = GetComponent<Player>();
+    }
 
     void Awake()
     {
@@ -103,7 +110,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (anim != null)
         {
-            anim.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
+            float facing = 1f;
+            if (player_movement.flipped_facing)
+            {
+                facing = -1f;
+            }
+            anim.SetFloat("Speed", rb.linearVelocity.x * facing);
             anim.SetFloat("VelY", rb.linearVelocity.y);
             anim.SetBool("Grounded", grounded);
         }

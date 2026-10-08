@@ -54,14 +54,14 @@ public class Gun : MonoBehaviour
 
 
             // Hold the gun in spinning direction
-            Debug.Log(transform.parent.name);
-            Debug.Log(transform.parent.rotation);
+            //Debug.Log(transform.parent.name);
+            //Debug.Log(transform.parent.rotation);
 
 
 
             collider.gameObject.GetComponent<Player>().PickupGun(gameObject);
-            Debug.Log(transform.parent.name);
-            Debug.Log(transform.parent.rotation);
+            //Debug.Log(transform.parent.name);
+            //Debug.Log(transform.parent.rotation);
 
             transform.rotation = transform.parent.rotation * Quaternion.Euler(0, 0, 90f);
 
