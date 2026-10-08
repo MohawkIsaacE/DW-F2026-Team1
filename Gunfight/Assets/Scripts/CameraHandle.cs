@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class CameraHandle : MonoBehaviour
 {
-    public float left_limit = -9.67f;
-    public float right_limit = 9.67f;
+    public float left_limit = -9.645f;
+    public float right_limit = 9.645f;
     public float top_limit = 5.5f;
     public float bottom_limit = -5.2f;
     // How fast the camera will follow the players
