@@ -32,9 +32,20 @@ public class Player : MonoBehaviour
         player = GetComponent<PlayerMovement>();
         hasGun = false;
         Spinner.SetActive(false);
-        layerMask = LayerMask.GetMask("Ignore Raycast");
         Physics2D.IgnoreCollision(Player1Collider, Player2Collider);
         GunScript = GunPrefab.GetComponent<Gun>();
+
+        // Layer mask
+        if (player.GetPlayerId() == PlayerMovement.PlayerId.Player1)
+        {
+            layerMask = LayerMask.GetMask("Ignore Raycast", "Player1Head");
+        }
+        if (player.GetPlayerId() == PlayerMovement.PlayerId.Player2)
+        {
+            layerMask = LayerMask.GetMask("Ignore Raycast", "Player2Head");
+        }
+            
+
     }
 
     // Update is called once per frame
@@ -59,7 +70,8 @@ public class Player : MonoBehaviour
     void Shoot()
     {
         // Shoot a raycast and check if it hit their head
-        RaycastHit2D hit = Physics2D.Raycast(Spinner.transform.position, Spinner.transform.up, shotDistance, ~layerMask);
+
+        RaycastHit2D hit = Physics2D.Raycast(Spinner.transform.position, Spinner.transform.up, shotDistance, ~layerMask); ;
 
         try
         {
