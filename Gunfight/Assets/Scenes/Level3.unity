@@ -385,11 +385,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1616555624734273264, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
       propertyPath: m_Color.b
-      value: 0.42745098
+      value: 0.87723017
       objectReference: {fileID: 0}
     - target: {fileID: 1616555624734273264, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
       propertyPath: m_Color.g
-      value: 0.9647059
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1616555624734273264, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
+      propertyPath: m_Color.r
+      value: 0.4669811
       objectReference: {fileID: 0}
     - target: {fileID: 5508429148696571119, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
       propertyPath: m_Name
@@ -835,11 +839,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1616555624734273264, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
       propertyPath: m_Color.b
-      value: 0.42745098
+      value: 0.8784314
       objectReference: {fileID: 0}
     - target: {fileID: 1616555624734273264, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
       propertyPath: m_Color.g
-      value: 0.9647059
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1616555624734273264, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
+      propertyPath: m_Color.r
+      value: 0.46666667
       objectReference: {fileID: 0}
     - target: {fileID: 5508429148696571119, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
       propertyPath: m_Name
@@ -987,7 +995,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -20
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -8243680318600960628, guid: 6e8dd3e7ee54e7c4a862e8af95ae25af, type: 3}
+  m_Sprite: {fileID: -7061030271901635499, guid: ebb45e89a95e1b74192228808702815e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2194,11 +2202,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1616555624734273264, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
       propertyPath: m_Color.b
-      value: 0.42745098
+      value: 0.8784314
       objectReference: {fileID: 0}
     - target: {fileID: 1616555624734273264, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
       propertyPath: m_Color.g
-      value: 0.9647059
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1616555624734273264, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
+      propertyPath: m_Color.r
+      value: 0.46666667
       objectReference: {fileID: 0}
     - target: {fileID: 5508429148696571119, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
       propertyPath: m_Name
@@ -2523,11 +2535,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1616555624734273264, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
       propertyPath: m_Color.b
-      value: 0.42745098
+      value: 0.8784314
       objectReference: {fileID: 0}
     - target: {fileID: 1616555624734273264, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
       propertyPath: m_Color.g
-      value: 0.9647059
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1616555624734273264, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
+      propertyPath: m_Color.r
+      value: 0.46666667
       objectReference: {fileID: 0}
     - target: {fileID: 5508429148696571119, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
       propertyPath: m_Name
