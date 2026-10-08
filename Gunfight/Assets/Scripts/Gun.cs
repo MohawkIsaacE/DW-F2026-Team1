@@ -6,6 +6,7 @@ public class Gun : MonoBehaviour
     bool isHeld;
     float respawnTimer;
     float angle;
+    public Vector3 gunSpriteOffset = new Vector3(0.9f, 0.2f, 0f); 
 
     [SerializeField] private Transform SpawnPointParent;
     private Transform[] SpawnPoints;
@@ -37,7 +38,7 @@ public class Gun : MonoBehaviour
         if (isHeld)
         {
             transform.position = transform.parent.position;
-            transform.rotation = Quaternion.identity;
+            //transform.rotation = Quaternion.identity;
         }
     }
 
@@ -49,18 +50,33 @@ public class Gun : MonoBehaviour
             && respawnTimer <= 0)
         {
             isHeld = true;
+            transform.Find("Gun Sprite").transform.localPosition = gunSpriteOffset;
+
+
+            // Hold the gun in spinning direction
+            Debug.Log(transform.parent.name);
+            Debug.Log(transform.parent.rotation);
+
+
 
             collider.gameObject.GetComponent<Player>().PickupGun(gameObject);
+            Debug.Log(transform.parent.name);
+            Debug.Log(transform.parent.rotation);
+
+            transform.rotation = transform.parent.rotation * Quaternion.Euler(0, 0, 90f);
+
+
         }
     }
 
     public void Respawn()
     {
         isHeld = false;
-        respawnTimer = 2f;
+        respawnTimer = 0.5f;
         angle = 0;
 
         int randomSpawn = (int)Random.Range(0, SpawnPoints.Length);
+        transform.rotation = Quaternion.identity;
         transform.position = SpawnPoints[randomSpawn].transform.position;
 
     }
