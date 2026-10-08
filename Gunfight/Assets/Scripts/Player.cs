@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEditor;
+using System;
 
 public class Player : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject AimLine;
     [SerializeField] private InputActionReference ShootAction;
     [SerializeField] private GameObject GunPrefab;
+    [SerializeField] private SpriteRenderer GunSprite;
 
     private float shotCooldown = 0.2f;
     private float shotTimer;
@@ -32,6 +34,7 @@ public class Player : MonoBehaviour
         Spinner.SetActive(false);
         ignoreBody = LayerMask.GetMask("Ignore Raycast");
         Physics2D.IgnoreCollision(Player1Collider, Player2Collider);
+        
     }
 
     // Update is called once per frame
@@ -58,8 +61,15 @@ public class Player : MonoBehaviour
         // Shoot a raycast and check if it hit their head
         RaycastHit2D hit = Physics2D.Raycast(AimLine.transform.position, Spinner.transform.up, shotDistance, ~ignoreBody);
 
-
-        Debug.Log(hit.collider.gameObject.name);
+        try
+        {
+            Debug.Log(hit.collider.gameObject.name);
+        } 
+        catch (NullReferenceException ex)
+        {
+            Debug.Log("Hit something without a gameobject (the sky?): " + ex);
+        }
+        
         // Check which player is shooting
         if (player.GetPlayerId() == PlayerMovement.PlayerId.Player1)
         {
@@ -117,13 +127,22 @@ public class Player : MonoBehaviour
 
         // Hold the gun
         GunPrefab = gunReference;
-        GunPrefab.transform.SetParent(transform);
+        GunPrefab.transform.SetParent(transform.Find("Spinner").gameObject.transform);
+        if (player.GetPlayerId() == PlayerMovement.PlayerId.Player2)
+        {
+            GunSprite.flipY = true;
+        } else
+        {
+            GunSprite.flipY = false;
+        }
     }
 
     void DropGun()
     {
-        hasGun = false;
 
+        if (GunSprite.flipY) { GunSprite.flipY = false; };
+        hasGun = false;
+        angle = 0;
         // Deactivate the spinner when you lose the gun
         Spinner.SetActive(false);
 

@@ -30,14 +30,14 @@ public class Gun : MonoBehaviour
         {
             respawnTimer -= Time.deltaTime;
             // Spin when thrown
-            angle += Time.deltaTime * 70f;
-            transform.rotation = Quaternion.Euler(0, 0, angle);
+            //angle += Time.deltaTime * 70f;
+            //transform.rotation = Quaternion.Euler(0, 0, angle);
         }
 
         if (isHeld)
         {
             transform.position = transform.parent.position;
-            transform.rotation = Quaternion.identity;
+            //transform.rotation = Quaternion.identity;
         }
     }
 
@@ -49,8 +49,19 @@ public class Gun : MonoBehaviour
             && respawnTimer <= 0)
         {
             isHeld = true;
+            // Hold the gun in spinning direction
+            Debug.Log(transform.parent.name);
+            Debug.Log(transform.parent.rotation);
+
+
 
             collider.gameObject.GetComponent<Player>().PickupGun(gameObject);
+            Debug.Log(transform.parent.name);
+            Debug.Log(transform.parent.rotation);
+
+            transform.rotation = transform.parent.rotation * Quaternion.Euler(0, 0, 90f);
+
+
         }
     }
 
@@ -61,6 +72,7 @@ public class Gun : MonoBehaviour
         angle = 0;
 
         int randomSpawn = (int)Random.Range(0, SpawnPoints.Length);
+        transform.rotation = Quaternion.identity;
         transform.position = SpawnPoints[randomSpawn].transform.position;
 
     }
