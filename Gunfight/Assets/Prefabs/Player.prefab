@@ -616,6 +616,9 @@ MonoBehaviour:
   hasGun: 0
   Player1Collider: {fileID: 0}
   Player2Collider: {fileID: 0}
+  smokeParticle: {fileID: 0}
+  sparkParticle: {fileID: 0}
+  bloodParticle: {fileID: 0}
 --- !u!50 &7729020953074524922
 Rigidbody2D:
   serializedVersion: 5
