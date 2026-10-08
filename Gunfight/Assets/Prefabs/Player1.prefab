@@ -119,7 +119,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -1.5, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4668486783229354187}
@@ -173,8 +173,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 318c9adc121f7f34f995545da1390076, type: 3}
-  m_Color: {r: 0.2725382, g: 0.20926301, b: 0.381132, a: 1}
+  m_Sprite: {fileID: 101328882269802303, guid: d0fadb375560aa84991affdeaca327e1, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -221,7 +221,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.28, y: 1.28}
+    oldSize: {x: 0.86, y: 1.25}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -631,6 +631,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   playerId: 0
+  body: {fileID: 0}
   moveSpeed: 6
+  groundAccel: 90
+  groundDecel: 110
+  airAccel: 60
+  airDecel: 40
   allowJump: 1
   jumpSpeed: 9
+  jumpCutMultiplier: 0.1
+  jumpBufferTime: 0.1
+  maxFallSpeed: 20
