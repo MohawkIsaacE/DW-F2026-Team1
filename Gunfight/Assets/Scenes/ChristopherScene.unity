@@ -803,11 +803,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 331016416351552673, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x
-      value: 1
+      value: 0.86
       objectReference: {fileID: 0}
     - target: {fileID: 331016416351552673, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.y
-      value: 1
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 331016416351552673, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x

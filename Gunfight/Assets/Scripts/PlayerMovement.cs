@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private PlayerId playerId = PlayerId.Player1;
     [SerializeField] private Transform body;
-
+    [SerializeField] private Animator anim;
     // RUN PROPERTIES
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private float groundAccel = 90f;
@@ -87,9 +87,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 target = new Vector3(1.0f, 1.0f, 1f);
         body.transform.localScale = Vector3.Lerp(body.transform.localScale, target, 10f * Time.deltaTime);
-
-
-
+        bool grounded = IsGrounded();
 
         if (allowJump && jumpAction.WasPressedThisFrame() && IsGrounded())
         {
@@ -102,6 +100,13 @@ public class PlayerMovement : MonoBehaviour
         }
         if (jumpAction.WasReleasedThisFrame())
             jumpReleased = true;
+
+        if (anim != null)
+        {
+            anim.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
+            anim.SetFloat("VelY", rb.linearVelocity.y);
+            anim.SetBool("Grounded", grounded);
+        }
     }
 
     void FixedUpdate()
