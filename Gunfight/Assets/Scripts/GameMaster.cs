@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameMaster : MonoBehaviour
 {
@@ -88,12 +89,14 @@ public class GameMaster : MonoBehaviour
         {
             WinningPlayerText.text = "Player 1 Wins!";
             WinSequence(Player1);
+            player1Points = 0;
 
         }
         if (player2Points >= winScore)
         {
             WinningPlayerText.text = "Player 2 Wins!";
             WinSequence(Player2);
+            player1Points = 0;
 
         }
     }
@@ -108,6 +111,11 @@ public class GameMaster : MonoBehaviour
     }
     void SwitchLevel()
     {
-
+        int currentScene = SceneManager.GetActiveScene().buildIndex;
+        Debug.Log(currentScene);
+        if (currentScene < 3)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 }

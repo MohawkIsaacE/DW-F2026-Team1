@@ -85,6 +85,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnEnable()
     {
+        rb.linearVelocity = Vector2.zero;
         moveAction.Enable();
         jumpAction.Enable();
         dropAction.Enable();
@@ -95,6 +96,7 @@ public class PlayerMovement : MonoBehaviour
         moveAction.Disable();
         jumpAction.Disable();
         dropAction.Disable();
+        rb.linearVelocity = Vector2.zero;
     }
 
     void OnDestroy()
@@ -151,7 +153,10 @@ public class PlayerMovement : MonoBehaviour
         float rate;
         if (Mathf.Abs(input) > 0.01f)
         {
+            // Air acceleration and deceleration is slower
             rate = grounded ? groundAccel : airAccel;
+            // Check if the player is trying to move in the opposite direction
+
             if (Mathf.Sign(target) != Mathf.Sign(vel.x) && Mathf.Abs(vel.x) > 0.01f)
                 rate = grounded ? groundDecel : airDecel;
         }
@@ -159,6 +164,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rate = grounded ? groundDecel : airDecel;
         }
+        // Apply movement by rate over time
         vel.x = Mathf.MoveTowards(vel.x, target, rate * Time.fixedDeltaTime);
 
         if (jumpBufferTimer > 0f)
@@ -168,6 +174,7 @@ public class PlayerMovement : MonoBehaviour
             jumpReleased = false;
         }
 
+        // Cut the jump short if jump is released early
         if (jumpReleased && vel.y > 0f)
             vel.y *= jumpCutMultiplier;
         jumpReleased = false;
