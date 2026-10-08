@@ -31,6 +31,7 @@ public class Gun : MonoBehaviour
             respawnTimer -= Time.deltaTime;
             // Spin when thrown
             angle += Time.deltaTime * 70f;
+
             transform.rotation = Quaternion.Euler(0, 0, angle);
         }
 
