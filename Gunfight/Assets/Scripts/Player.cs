@@ -25,6 +25,11 @@ public class Player : MonoBehaviour
     [SerializeField] private Collider2D Player1Collider;
     [SerializeField] private Collider2D Player2Collider;
 
+    [Header("Particle Effects")]
+    private GameObject smokeParticle;
+    private GameObject sparkParticle;
+    private GameObject bloodParticle;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -44,8 +49,11 @@ public class Player : MonoBehaviour
         {
             layerMask = LayerMask.GetMask("Ignore Raycast", "Player2Head");
         }
-            
 
+        // Set up the particles for use
+        sparkParticle = GameObject.Find("HitParticle");
+        smokeParticle = GameObject.Find("ShootParticle");
+        bloodParticle = GameObject.Find("BloodParticle");
     }
 
     // Update is called once per frame
@@ -69,13 +77,17 @@ public class Player : MonoBehaviour
 
     void Shoot()
     {
+        // Play shoot particle at the gun position
+        smokeParticle.transform.position = GunPrefab.transform.position;
+        smokeParticle.GetComponent<ParticleSystem>().Play();
+
         // Shoot a raycast and check if it hit their head
 
         RaycastHit2D hit = Physics2D.Raycast(Spinner.transform.position, Spinner.transform.up, shotDistance, ~layerMask); ;
 
         try
         {
-            Debug.Log(hit.collider.gameObject.name);
+            //Debug.Log(hit.collider.gameObject.name);
         } 
         catch (NullReferenceException ex)
         {
@@ -91,6 +103,8 @@ public class Player : MonoBehaviour
                 hit.collider.transform.parent.gameObject.SetActive(false);
 
                 // Play special blood effect
+                bloodParticle.transform.position = hit.collider.transform.position;
+                bloodParticle.GetComponent<ParticleSystem>().Play();
             }
         }
         if (player.GetPlayerId() == PlayerMovement.PlayerId.Player2)
@@ -101,6 +115,8 @@ public class Player : MonoBehaviour
                 hit.collider.transform.parent.gameObject.SetActive(false);
 
                 // Play special blood effect
+                bloodParticle.transform.position = hit.collider.transform.position;
+                bloodParticle.GetComponent<ParticleSystem>().Play();
             }
         }
 
@@ -110,6 +126,8 @@ public class Player : MonoBehaviour
         if (hit.collider.gameObject.tag == "SolidObject")
         {
             // Play special miss effect
+            sparkParticle.transform.position = hit.point;
+            sparkParticle.GetComponent<ParticleSystem>().Play();
         }
         // Throw the gun after you shoot
         DropGun();
