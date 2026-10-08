@@ -497,8 +497,8 @@ GameObject:
   - component: {fileID: 7729020953074524922}
   - component: {fileID: 1131006934845510022}
   m_Layer: 0
-  m_Name: Player1
-  m_TagString: Untagged
+  m_Name: Player
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -614,6 +614,8 @@ MonoBehaviour:
   ShootAction: {fileID: 1781555164194001046, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   GunPrefab: {fileID: 0}
   hasGun: 0
+  Player1Collider: {fileID: 0}
+  Player2Collider: {fileID: 0}
 --- !u!50 &7729020953074524922
 Rigidbody2D:
   serializedVersion: 5
