@@ -31,9 +31,11 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private InputAction moveAction;
     private InputAction jumpAction;
+    private InputAction dropAction;
     private readonly ContactPoint2D[] contacts = new ContactPoint2D[8];
     private float jumpBufferTimer;
     private bool jumpReleased;
+    private bool dropReleased;
     private Player player_movement;
 
     public PlayerId Id => playerId;
@@ -55,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
         // Bindings are built per player so both can use the same keyboard at once
         moveAction = new InputAction("Move", InputActionType.Value);
         jumpAction = new InputAction("Jump", InputActionType.Button);
+        dropAction = new InputAction("Drop", InputActionType.Button);
 
         if (playerId == PlayerId.Player1)
         {
@@ -62,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
                 .With("Negative", "<Keyboard>/a")
                 .With("Positive", "<Keyboard>/d");
             jumpAction.AddBinding("<Keyboard>/w");
+            dropAction.AddBinding("<Keyboard>/s");
         }
         else
         {
@@ -69,6 +73,7 @@ public class PlayerMovement : MonoBehaviour
                 .With("Negative", "<Keyboard>/leftArrow")
                 .With("Positive", "<Keyboard>/rightArrow");
             jumpAction.AddBinding("<Keyboard>/upArrow");
+            dropAction.AddBinding("<Keyboard>/downArrow");
         }
     }
 
@@ -76,18 +81,21 @@ public class PlayerMovement : MonoBehaviour
     {
         moveAction.Enable();
         jumpAction.Enable();
+        dropAction.Enable();
     }
 
     void OnDisable()
     {
         moveAction.Disable();
         jumpAction.Disable();
+        dropAction.Disable();
     }
 
     void OnDestroy()
     {
         moveAction.Dispose();
         jumpAction.Dispose();
+        dropAction.Dispose();
     }
 
     void Update()
@@ -107,6 +115,11 @@ public class PlayerMovement : MonoBehaviour
         }
         if (jumpAction.WasReleasedThisFrame())
             jumpReleased = true;
+
+        if (dropAction.WasPressedThisFrame() && !IsGrounded())
+        {
+            dropReleased = true;
+        }
 
         if (anim != null)
         {
@@ -155,6 +168,11 @@ public class PlayerMovement : MonoBehaviour
 
         vel.y += -0.5f;
         vel.y = Mathf.Max(vel.y, -maxFallSpeed);
+        if (dropReleased)
+        {
+            vel.y = -maxFallSpeed;
+            dropReleased = false;
+        }
 
         rb.linearVelocity = vel;
 
