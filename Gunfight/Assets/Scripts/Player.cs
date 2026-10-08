@@ -14,10 +14,14 @@ public class Player : MonoBehaviour
     private float shotTimer;
     private float angle;
     private float shotDistance = 100f;
-
+    private float rotateSpeed = 100f;
+    private LayerMask ignoreBody;
     public bool hasGun;
 
     private PlayerMovement player;
+
+    [SerializeField] private Collider2D Player1Collider;
+    [SerializeField] private Collider2D Player2Collider;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,6 +30,8 @@ public class Player : MonoBehaviour
         player = GetComponent<PlayerMovement>();
         hasGun = false;
         Spinner.SetActive(false);
+        ignoreBody = LayerMask.GetMask("Ignore Raycast");
+        Physics2D.IgnoreCollision(Player1Collider, Player2Collider);
     }
 
     // Update is called once per frame
@@ -50,16 +56,39 @@ public class Player : MonoBehaviour
     void Shoot()
     {
         // Shoot a raycast and check if it hit their head
-        RaycastHit2D hit = Physics2D.Raycast(AimLine.transform.position, Spinner.transform.up, shotDistance);
-        
-        // Early exit if the player misses a shot
-        //if (hit.collider.gameObject.GetComponent<PlayerMovement>() == null || hit == false) return;
+        RaycastHit2D hit = Physics2D.Raycast(AimLine.transform.position, Spinner.transform.up, shotDistance, ~ignoreBody);
 
-        if (hit != false && hit.collider.gameObject.name == "Head")
+
+        Debug.Log(hit.collider.gameObject.name);
+        // Check which player is shooting
+        if (player.GetPlayerId() == PlayerMovement.PlayerId.Player1)
         {
-            Destroy(hit.collider.gameObject);
+            if (hit != false && hit.collider.gameObject.name == "Player2Head")
+            {
+                // Destroy the Player
+                Destroy(hit.collider.gameObject.transform.parent.gameObject);
+
+                // Play special blood effect
+            }
+        }
+        if (player.GetPlayerId() == PlayerMovement.PlayerId.Player2)
+        {
+            if (hit != false && hit.collider.gameObject.name == "Player1Head")
+            {
+                // Destroy the Player
+                Destroy(hit.collider.gameObject.transform.parent.gameObject);
+
+                // Play special blood effect
+            }
         }
 
+        // =========== Play special effects
+
+        // 
+        if (hit.collider.gameObject.tag == "SolidObject")
+        {
+            // Play special miss effect
+        }
         // Throw the gun after you shoot
         DropGun();
     }
@@ -69,11 +98,11 @@ public class Player : MonoBehaviour
         // Decide which way to spin based on player number
         if (player.GetPlayerId() == PlayerMovement.PlayerId.Player1)
         {
-            angle -= 60f * Time.deltaTime;
+            angle -= rotateSpeed * Time.deltaTime;
         }
         else
         {
-            angle += 60f * Time.deltaTime;
+            angle += rotateSpeed * Time.deltaTime;
         }
         Spinner.transform.rotation = Quaternion.Euler(0, 0, angle);
     }
