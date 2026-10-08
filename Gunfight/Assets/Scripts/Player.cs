@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject GunPrefab;
     [SerializeField] private SpriteRenderer GunSprite;
     [SerializeField] private Transform body;
+    [SerializeField] private GameObject GameMaster;
+
     private float shotCooldown = 0.2f;
     private float shotTimer;
     private float angle;
@@ -20,6 +22,7 @@ public class Player : MonoBehaviour
     public bool hasGun;
 
     private PlayerMovement player;
+    private GameMaster GameMasterScript;
     private Gun GunScript;
 
     [SerializeField] private Collider2D Player1Collider;
@@ -40,6 +43,7 @@ public class Player : MonoBehaviour
         Spinner.SetActive(false);
         Physics2D.IgnoreCollision(Player1Collider, Player2Collider);
         GunScript = GunPrefab.GetComponent<Gun>();
+        GameMasterScript = GameMaster.GetComponent<GameMaster>();
 
         // Layer mask
         if (player.GetPlayerId() == PlayerMovement.PlayerId.Player1)
@@ -136,7 +140,7 @@ public class Player : MonoBehaviour
             if (hit != false && hit.collider.gameObject.name == "Player2Head")
             {
                 // Kill the Player
-                hit.collider.transform.parent.gameObject.SetActive(false);
+                GameMasterScript.KillSequence(gameObject);
 
                 // Play special blood effect
                 bloodParticle.transform.position = hit.collider.transform.position;
@@ -148,7 +152,7 @@ public class Player : MonoBehaviour
             if (hit != false && hit.collider.gameObject.name == "Player1Head")
             {
                 // Kill the Player
-                hit.collider.transform.parent.gameObject.SetActive(false);
+                GameMasterScript.KillSequence(gameObject);
 
                 // Play special blood effect
                 bloodParticle.transform.position = hit.collider.transform.position;
