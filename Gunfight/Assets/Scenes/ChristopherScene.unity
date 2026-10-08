@@ -866,6 +866,10 @@ PrefabInstance:
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1200239214019510939, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
+      propertyPath: GunPrefab
+      value: 
+      objectReference: {fileID: 8357413911502163916, guid: 72567993a56721a4ba588ea8883e7658, type: 3}
+    - target: {fileID: 1200239214019510939, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: GunSprite
       value: 
       objectReference: {fileID: 1407478135}
@@ -1142,6 +1146,10 @@ PrefabInstance:
       propertyPath: jumpCutMultiplier
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 1200239214019510939, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
+      propertyPath: GunPrefab
+      value: 
+      objectReference: {fileID: 8357413911502163916, guid: 72567993a56721a4ba588ea8883e7658, type: 3}
     - target: {fileID: 1200239214019510939, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: GunSprite
       value: 
@@ -1488,6 +1496,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2121235254346312252, guid: 72567993a56721a4ba588ea8883e7658, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4502165405778263077, guid: 72567993a56721a4ba588ea8883e7658, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4502165405778263077, guid: 72567993a56721a4ba588ea8883e7658, type: 3}
+      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5738601382380885761, guid: 72567993a56721a4ba588ea8883e7658, type: 3}
