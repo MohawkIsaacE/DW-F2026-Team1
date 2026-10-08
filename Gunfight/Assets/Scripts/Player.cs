@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     private GameMaster GameMasterScript;
     private Gun GunScript;
 
+
     [SerializeField] private Collider2D Player1Collider;
     [SerializeField] private Collider2D Player2Collider;
 
@@ -34,11 +35,15 @@ public class Player : MonoBehaviour
     private GameObject sparkParticle;
     private GameObject bloodParticle;
 
+    void Awake()
+    {
+        player = GetComponent<PlayerMovement>();
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         shotTimer = shotCooldown;
-        player = GetComponent<PlayerMovement>();
         hasGun = false;
         Spinner.SetActive(false);
         Physics2D.IgnoreCollision(Player1Collider, Player2Collider);
@@ -80,7 +85,17 @@ public class Player : MonoBehaviour
         if (hasGun) RotateGun();
         UpdateFacing();
     }
-
+    Vector2 GetAimDirection()
+    {
+        if (player != null)
+        {
+            return player.rightStickDirection;
+        }
+        else
+        {
+            return Vector2.zero;
+        }
+    }
     void UpdateFacing()
     {
         if (body == null)
@@ -175,14 +190,12 @@ public class Player : MonoBehaviour
 
     void RotateGun()
     {
-        // Decide which way to spin based on player number
-        if (player.GetPlayerId() == PlayerMovement.PlayerId.Player1)
+        // Turn right stick directions into angle and rotate gun by it
+
+        Vector2 direction = player.rightStickDirection;
+        if (direction.magnitude > 0.1f)
         {
-            angle -= rotateSpeed * Time.deltaTime;
-        }
-        else
-        {
-            angle += rotateSpeed * Time.deltaTime;
+            angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         }
         Spinner.transform.rotation = Quaternion.Euler(0, 0, angle);
     }

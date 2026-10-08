@@ -33,6 +33,10 @@ public class PlayerMovement : MonoBehaviour
     private InputActionMap playerActionMap;
     private InputAction moveAction;
     private InputAction jumpAction;
+
+    private InputAction aimAction;
+
+    [HideInInspector] public Vector2 rightStickDirection;
     private readonly ContactPoint2D[] contacts = new ContactPoint2D[8];
     private float jumpBufferTimer;
     private bool jumpReleased;
@@ -86,6 +90,9 @@ public class PlayerMovement : MonoBehaviour
         jumpAction = new InputAction("Jump", InputActionType.Button);
         jumpAction.AddBinding("<Gamepad>/buttonSouth");
 
+        aimAction = playerActionMap.AddAction("AimDirection", InputActionType.Value);
+        aimAction.AddBinding("<Gamepad>/rightStick");
+
         // Check if enough gamepads are connected, if so bind them based on player id
         if (Gamepad.all.Count > (int)playerId)
         {
@@ -122,6 +129,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        rightStickDirection = aimAction.ReadValue<Vector2>();
         Vector3 target = new Vector3(1.0f, 1.0f, 1f);
         body.transform.localScale = Vector3.Lerp(body.transform.localScale, target, 10f * Time.deltaTime);
         bool grounded = IsGrounded();
