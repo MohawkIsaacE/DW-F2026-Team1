@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] private InputActionReference ShootAction;
     [SerializeField] private GameObject GunPrefab;
     [SerializeField] private SpriteRenderer GunSprite;
-
+    [SerializeField] private Transform body;
     private float shotCooldown = 0.2f;
     private float shotTimer;
     private float angle;
@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private Collider2D Player1Collider;
     [SerializeField] private Collider2D Player2Collider;
+
+    public bool flipped_facing = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -65,8 +67,43 @@ public class Player : MonoBehaviour
         }
 
         if (hasGun) RotateGun();
+        UpdateFacing();
     }
 
+    void UpdateFacing()
+    {
+        if (body == null)
+        {
+            body = transform.Find("Body");
+        }
+        GameObject player1 = GameObject.Find("Player1");
+        GameObject player2 = GameObject.Find("Player2");
+        float p1_pos_x = player1.transform.position.x;
+        float p2_pos_x = player2.transform.position.x;
+        bool flip_facing = false;
+        if (player.GetPlayerId() == PlayerMovement.PlayerId.Player1)
+        {
+            if (p1_pos_x > p2_pos_x)
+                {
+                flip_facing = true;
+                }
+        }
+        if (player.GetPlayerId() == PlayerMovement.PlayerId.Player2)
+        {
+            if (p2_pos_x > p1_pos_x)
+            {
+                flip_facing = true;
+            }
+        }
+
+
+        SetFacing(flip_facing);
+    }
+    void SetFacing(bool facing)
+    {
+        body.GetComponent<SpriteRenderer>().flipX = facing;
+        flipped_facing = facing;
+    }
     void Shoot()
     {
         // Shoot a raycast and check if it hit their head
