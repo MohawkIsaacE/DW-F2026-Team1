@@ -65,8 +65,9 @@ public class Player : MonoBehaviour
         {
             if (hit != false && hit.collider.gameObject.name == "Player2Head")
             {
-                // Destroy the Player
-                Destroy(hit.collider.gameObject.transform.parent.gameObject);
+                // Kill the Player
+                // Destroy(hit.collider.gameObject.transform.parent.gameObject);
+                hit.collider.gameObject.transform.parent.gameObject.SetActive(false);
 
                 // Play special blood effect
             }
@@ -75,8 +76,8 @@ public class Player : MonoBehaviour
         {
             if (hit != false && hit.collider.gameObject.name == "Player1Head")
             {
-                // Destroy the Player
-                Destroy(hit.collider.gameObject.transform.parent.gameObject);
+                // Kill the Player
+                hit.collider.gameObject.transform.parent.gameObject.SetActive(false);
 
                 // Play special blood effect
             }
@@ -132,5 +133,10 @@ public class Player : MonoBehaviour
 
         // Throw the gun away
         GunPrefab.GetComponent<Gun>().Respawn();
+    }
+
+    void Respawn()
+    {
+
     }
 }
