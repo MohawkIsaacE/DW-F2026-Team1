@@ -29,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
 
 
     private Rigidbody2D rb;
+
+    private InputActionMap playerActionMap;
     private InputAction moveAction;
     private InputAction jumpAction;
     private readonly ContactPoint2D[] contacts = new ContactPoint2D[8];
@@ -46,12 +48,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake()
     {
+        Debug.Log("PlayerId: " + (int)playerId);
         rb = GetComponent<Rigidbody2D>();
         rb.freezeRotation = true;
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;   // removes jitter
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
-
+        /*
         // Bindings are built per player so both can use the same keyboard at once
         moveAction = new InputAction("Move", InputActionType.Value);
         jumpAction = new InputAction("Jump", InputActionType.Button);
@@ -70,19 +73,44 @@ public class PlayerMovement : MonoBehaviour
                 .With("Positive", "<Keyboard>/rightArrow");
             jumpAction.AddBinding("<Keyboard>/upArrow");
         }
+        */
+
+        playerActionMap = new InputActionMap("PlayerControls_" + playerId);
+
+        // New Gamepad controls
+        moveAction = new InputAction("Move", InputActionType.Value);
+        moveAction.AddCompositeBinding("1DAxis")
+            .With("Negative", "<Gamepad>/leftStick/left")
+            .With("Positive", "<Gamepad>/leftStick/right");
+
+        jumpAction = new InputAction("Jump", InputActionType.Button);
+        jumpAction.AddBinding("<Gamepad>/buttonSouth");
+
+        // Check if enough gamepads are connected, if so bind them based on player id
+        if (Gamepad.all.Count > (int)playerId)
+        {
+            Gamepad assignedGamepad = Gamepad.all[(int)playerId];
+
+            playerActionMap.devices = new[] { assignedGamepad };
+
+        }
+        else
+        {
+            Debug.LogWarning("Waiting for both gamepads to be plugged in!!!");
+        }
+
     }
 
     void OnEnable()
     {
         rb.linearVelocity = Vector2.zero;
-        moveAction.Enable();
-        jumpAction.Enable();
+        playerActionMap.Enable();
     }
 
     void OnDisable()
     {
-        moveAction.Disable();
-        jumpAction.Disable();
+        playerActionMap.Disable();
+
         rb.linearVelocity = Vector2.zero;
     }
 
