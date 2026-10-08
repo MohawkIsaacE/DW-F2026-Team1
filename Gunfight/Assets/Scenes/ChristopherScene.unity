@@ -1117,7 +1117,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1131006934845510022, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: moveSpeed
-      value: 8
+      value: 9.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1131006934845510022, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
+      propertyPath: fallSpeedAccel
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1131006934845510022, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: jumpCutMultiplier
@@ -2170,7 +2174,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1131006934845510022, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: moveSpeed
-      value: 8
+      value: 9.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1131006934845510022, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
+      propertyPath: fallSpeedAccel
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1131006934845510022, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: jumpCutMultiplier
@@ -2188,6 +2196,10 @@ PrefabInstance:
       propertyPath: GameMaster
       value: 
       objectReference: {fileID: 253348788}
+    - target: {fileID: 1200239214019510939, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
+      propertyPath: ShootAction
+      value: 
+      objectReference: {fileID: 7053474754318598526, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
     - target: {fileID: 1200239214019510939, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: shotDistance
       value: 100

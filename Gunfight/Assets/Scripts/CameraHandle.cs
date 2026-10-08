@@ -38,21 +38,6 @@ public class CameraHandle : MonoBehaviour
         float halfHeight = cam.orthographicSize;
         float halfWidth = halfHeight * cam.aspect;
 
-        float minX = left_limit + halfWidth;
-        float maxX = right_limit - halfWidth;
-
-        float minY = bottom_limit + halfHeight;
-        float maxY = top_limit - halfHeight;
-
-        // Keeps within the walls and floor
-        targetX = Mathf.Clamp(targetX, minX, maxX);
-        targetY = Mathf.Clamp(targetY, minY, maxY);
-
-        Vector3 pos = transform.position;
-        pos.x = Mathf.Lerp(pos.x, targetX, cam_speed * Time.deltaTime);
-        pos.y = Mathf.Lerp(pos.y, targetY, cam_speed * Time.deltaTime);
-        transform.position = pos;
-
         // Pan away if players stray too far from camera
         Vector3 p1_pos = (player1.position);
         Vector3 p2_pos = (player2.position);
@@ -68,6 +53,23 @@ public class CameraHandle : MonoBehaviour
         {
             cam.orthographicSize = minZoom;
         }
+        halfHeight = cam.orthographicSize;
+
+        float minX = left_limit + halfWidth;
+        float maxX = right_limit - halfWidth;
+
+        float minY = bottom_limit + halfHeight;
+        float maxY = top_limit - halfHeight;
+
+        // Keeps within the walls and floor
+        targetX = Mathf.Clamp(targetX, minX, maxX);
+        targetY = Mathf.Clamp(targetY, minY, maxY);
+
+        Vector3 pos = transform.position;
+        pos.x = Mathf.Lerp(pos.x, targetX, cam_speed * Time.deltaTime);
+        pos.y = Mathf.Lerp(pos.y, targetY, cam_speed * Time.deltaTime);
+        pos.y = Mathf.Min(pos.y, 0.02f);
+        transform.position = pos;
 
     }
 }

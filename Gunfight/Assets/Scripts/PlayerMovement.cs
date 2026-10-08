@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 using static UnityEngine.GraphicsBuffer;
 
 //   Player 1: A / D to move, W to jump
@@ -26,7 +27,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpCutMultiplier = 0.1f;
     [SerializeField] private float jumpBufferTime = 0.1f;
     [SerializeField] private float maxFallSpeed = 20f;
+    [SerializeField] private float fallSpeedAccel = 0.8f;
 
+    [SerializeField] private float dropThroughTime = 0.3f;
+    private bool droppingThrough;
+    [SerializeField] private Collider2D Player1Collider;
+    [SerializeField] private Collider2D Player2Collider;
 
     private Rigidbody2D rb;
     private InputAction moveAction;
@@ -116,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
         if (jumpAction.WasReleasedThisFrame())
             jumpReleased = true;
 
-        if (dropAction.WasPressedThisFrame() && !IsGrounded())
+        if (dropAction.WasPressedThisFrame())
         {
             dropReleased = true;
         }
@@ -166,16 +172,60 @@ public class PlayerMovement : MonoBehaviour
             vel.y *= jumpCutMultiplier;
         jumpReleased = false;
 
-        vel.y += -0.5f;
+        vel.y += -fallSpeedAccel;
         vel.y = Mathf.Max(vel.y, -maxFallSpeed);
+        
         if (dropReleased)
         {
-            vel.y = -maxFallSpeed;
+            if (grounded == false)
+            {
+                vel.y = -maxFallSpeed;
+            }
+            else
+            {
+                DropThrough();
+            }
             dropReleased = false;
         }
-
+        
         rb.linearVelocity = vel;
 
+    }
+
+    void DropThrough()
+    {
+        if (droppingThrough) return;
+
+        int count = rb.GetContacts(contacts);
+        for (int i = 0; i < count; i++)
+        {
+            // Get collision that isn't ours
+            Collider2D other = contacts[i].collider.attachedRigidbody == rb ? contacts[i].otherCollider : contacts[i].collider;
+
+            // Only drop through one way platforms
+            if (contacts[i].normal.y > 0.5f && other.GetComponent<PlatformEffector2D>() != null)
+            {
+                StartCoroutine(IgnorePlatform(other));
+                break;
+            }
+        }
+    }
+
+    IEnumerator IgnorePlatform(Collider2D platform)
+    {
+        droppingThrough = true;
+
+        Collider2D[] mine = GetComponentsInChildren<Collider2D>();
+        foreach (Collider2D c in mine)
+            Physics2D.IgnoreCollision(c, platform, true);
+
+        yield return new WaitForSeconds(dropThroughTime);
+
+        foreach (Collider2D c in mine)
+            if (c != null && platform != null)
+                Physics2D.IgnoreCollision(c, platform, false);
+
+        droppingThrough = false;
     }
 
     // Grounded when touching something that pushes up on us
