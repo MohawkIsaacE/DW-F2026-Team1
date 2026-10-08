@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     private float shotTimer;
     private float angle;
     private float shotDistance = 100f;
-    private float rotateSpeed = 175f;
+    private float rotateSpeed = 180f;
     private LayerMask layerMask;
     public bool hasGun;
 
