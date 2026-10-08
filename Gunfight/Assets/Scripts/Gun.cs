@@ -6,6 +6,7 @@ public class Gun : MonoBehaviour
     bool isHeld;
     float respawnTimer;
     float angle;
+
     [SerializeField] private Transform SpawnPointParent;
     private Transform[] SpawnPoints;
 
@@ -20,6 +21,7 @@ public class Gun : MonoBehaviour
         {
             SpawnPoints[i] = SpawnPointParent.GetChild(i);
         }
+
     }
 
     private void Update()
@@ -51,13 +53,15 @@ public class Gun : MonoBehaviour
             collider.gameObject.GetComponent<Player>().PickupGun(gameObject);
         }
     }
+
     public void Respawn()
     {
         isHeld = false;
         respawnTimer = 2f;
         angle = 0;
 
-        int randomAngle = (int)Random.Range(0, SpawnPoints.Length);
-        transform.position = SpawnPoints[randomAngle].transform.position;
+        int randomSpawn = (int)Random.Range(0, SpawnPoints.Length);
+        transform.position = SpawnPoints[randomSpawn].transform.position;
+
     }
 }
