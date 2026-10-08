@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
@@ -9,11 +10,20 @@ public class GameMaster : MonoBehaviour
     [SerializeField] private Transform Player1Spawn;
     [SerializeField] private Transform Player2Spawn;
     [SerializeField] private TextMeshProUGUI Timer;
+    [SerializeField] private TextMeshProUGUI WinningPlayerText;
+    [SerializeField] private TextMeshProUGUI Player1PointsText;
+    [SerializeField] private TextMeshProUGUI Player2PointsText;
+    private PlayerMovement Player1Movement;
+    private PlayerMovement Player2Movement;
     private float player1Points = 0;
     private float player2Points = 0;
+    private float winScore = 3;
     void Start()
     {
-        
+        Player1Movement = Player1.GetComponent<PlayerMovement>();
+        Player2Movement = Player2.GetComponent<PlayerMovement>();
+
+        Respawn();
     }
 
     // Update is called once per frame
@@ -21,47 +31,80 @@ public class GameMaster : MonoBehaviour
     {
         CheckWin();
     }
-    void KillSequence(GameObject WinningPlayer)
+    public void KillSequence(GameObject WinningPlayer)
     {
         if (WinningPlayer != null)
         {
             if (WinningPlayer == Player1)
             {
                 player1Points++;
+                Player1PointsText.text = player1Points.ToString();
+                if (player1Points < winScore)
+                {
+                    TimerSequence();
+                    Respawn();
+                }
             }
             if (WinningPlayer == Player2)
             {
                 player2Points++;
+                Player2PointsText.text = player2Points.ToString();
+
+                if (player2Points < winScore)
+                {
+                    TimerSequence();
+                    Respawn();
+                }
             }
         }
-        TimerSequence();
-        Respawn();
     }
     void Respawn()
     {
         Player1.SetActive(true);
         Player2.SetActive(true);
         Player1.transform.position = Player1Spawn.transform.position;
-        Player2.transform.position = Player1Spawn.transform.position;
+        Player2.transform.position = Player2Spawn.transform.position;
+        TimerSequence();
     }
-    void TimerSequence()
+    async void TimerSequence()
     {
+        Player1Movement.enabled = false;
+        Player2Movement.enabled = false;
         Timer.gameObject.SetActive(true);
         Timer.text = "3";
+        await Task.Delay(1000);
+        Timer.text = "2";
+        await Task.Delay(1000);
+        Timer.text = "1";
+        await Task.Delay(1000);
+        Timer.gameObject.SetActive(false);
+        Player1Movement.enabled = true;
+        Player2Movement.enabled = true;
+
     }
     void CheckWin()
     {
-        if (player1Points >= 3)
+        if (player1Points >= winScore)
         {
+            WinningPlayerText.text = "Player 1 Wins!";
             WinSequence(Player1);
+
         }
-        if (player2Points >= 3)
+        if (player2Points >= winScore)
         {
+            WinningPlayerText.text = "Player 2 Wins!";
             WinSequence(Player2);
+
         }
     }
-    void WinSequence(GameObject WinningPlayer)
+    async void WinSequence(GameObject WinningPlayer)
     {
+        WinningPlayerText.gameObject.SetActive(true);
+        Player1Movement.enabled = false;
+        Player2Movement.enabled = false;
+        await Task.Delay(3000);
+
+        SwitchLevel();
     }
     void SwitchLevel()
     {
