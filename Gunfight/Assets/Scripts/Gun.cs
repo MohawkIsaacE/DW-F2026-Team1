@@ -72,7 +72,7 @@ public class Gun : MonoBehaviour
     public void Respawn()
     {
         isHeld = false;
-        respawnTimer = 2f;
+        respawnTimer = 0.5f;
         angle = 0;
 
         int randomSpawn = (int)Random.Range(0, SpawnPoints.Length);

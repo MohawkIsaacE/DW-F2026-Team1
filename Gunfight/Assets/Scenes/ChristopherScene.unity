@@ -231,7 +231,7 @@ MonoBehaviour:
   bottom_limit: -5.2
   cam_speed: 8
   player1: {fileID: 960435133}
-  player2: {fileID: 0}
+  player2: {fileID: 1791247955}
 --- !u!114 &101683015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -638,7 +638,7 @@ Transform:
   m_GameObject: {fileID: 853187806}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5098, y: 0.78329, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1303,6 +1303,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
+--- !u!4 &1791247955 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4668486783229354187, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
+  m_PrefabInstance: {fileID: 1743308786}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1839178863 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5840792130657153066, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}

@@ -87,8 +87,8 @@ public class Player : MonoBehaviour
         {
             if (hit != false && hit.collider.gameObject.name == "Player2Head")
             {
-                // Destroy the Player
-                Destroy(hit.collider.gameObject.transform.parent.gameObject);
+                // Kill the Player
+                hit.collider.transform.parent.gameObject.SetActive(false);
 
                 // Play special blood effect
             }
@@ -97,8 +97,8 @@ public class Player : MonoBehaviour
         {
             if (hit != false && hit.collider.gameObject.name == "Player1Head")
             {
-                // Destroy the Player
-                Destroy(hit.collider.gameObject.transform.parent.gameObject);
+                // Kill the Player
+                hit.collider.transform.parent.gameObject.SetActive(false);
 
                 // Play special blood effect
             }
