@@ -7,7 +7,6 @@ public class Player : MonoBehaviour
 {
 
     [SerializeField] private GameObject Spinner;
-    [SerializeField] private GameObject AimLine;
     [SerializeField] private InputActionReference ShootAction;
     [SerializeField] private GameObject GunPrefab;
     [SerializeField] private SpriteRenderer GunSprite;
@@ -17,10 +16,11 @@ public class Player : MonoBehaviour
     private float angle;
     private float shotDistance = 100f;
     private float rotateSpeed = 100f;
-    private LayerMask ignoreBody;
+    private LayerMask layerMask;
     public bool hasGun;
 
     private PlayerMovement player;
+    private Gun GunScript;
 
     [SerializeField] private Collider2D Player1Collider;
     [SerializeField] private Collider2D Player2Collider;
@@ -32,9 +32,9 @@ public class Player : MonoBehaviour
         player = GetComponent<PlayerMovement>();
         hasGun = false;
         Spinner.SetActive(false);
-        ignoreBody = LayerMask.GetMask("Ignore Raycast");
+        layerMask = LayerMask.GetMask("Ignore Raycast");
         Physics2D.IgnoreCollision(Player1Collider, Player2Collider);
-        
+        GunScript = GunPrefab.GetComponent<Gun>();
     }
 
     // Update is called once per frame
@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
     void Shoot()
     {
         // Shoot a raycast and check if it hit their head
-        RaycastHit2D hit = Physics2D.Raycast(AimLine.transform.position, Spinner.transform.up, shotDistance, ~ignoreBody);
+        RaycastHit2D hit = Physics2D.Raycast(Spinner.transform.position, Spinner.transform.up, shotDistance, ~layerMask);
 
         try
         {
@@ -131,16 +131,21 @@ public class Player : MonoBehaviour
         if (player.GetPlayerId() == PlayerMovement.PlayerId.Player2)
         {
             GunSprite.flipY = true;
+            GunSprite.color = new Color(1f, 0.5f, 0f, 1f);
         } else
         {
             GunSprite.flipY = false;
+            GunSprite.color = new Color(0.1f, 1f, 0f, 1f);
+
         }
     }
 
     void DropGun()
     {
-
+        GunSprite.transform.localPosition = Vector3.zero;
         if (GunSprite.flipY) { GunSprite.flipY = false; };
+        GunSprite.color = new Color(1f, 1f, 1f, 1f);
+
         hasGun = false;
         angle = 0;
         // Deactivate the spinner when you lose the gun

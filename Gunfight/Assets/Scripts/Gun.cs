@@ -6,6 +6,7 @@ public class Gun : MonoBehaviour
     bool isHeld;
     float respawnTimer;
     float angle;
+    public Vector3 gunSpriteOffset = new Vector3(0.9f, 0.2f, 0f); 
 
     [SerializeField] private Transform SpawnPointParent;
     private Transform[] SpawnPoints;
@@ -30,8 +31,8 @@ public class Gun : MonoBehaviour
         {
             respawnTimer -= Time.deltaTime;
             // Spin when thrown
-            //angle += Time.deltaTime * 70f;
-            //transform.rotation = Quaternion.Euler(0, 0, angle);
+            angle += Time.deltaTime * 70f;
+            transform.rotation = Quaternion.Euler(0, 0, angle);
         }
 
         if (isHeld)
@@ -49,6 +50,9 @@ public class Gun : MonoBehaviour
             && respawnTimer <= 0)
         {
             isHeld = true;
+            transform.Find("Gun Sprite").transform.localPosition = gunSpriteOffset;
+
+
             // Hold the gun in spinning direction
             Debug.Log(transform.parent.name);
             Debug.Log(transform.parent.rotation);

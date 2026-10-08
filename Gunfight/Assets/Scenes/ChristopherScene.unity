@@ -788,6 +788,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1206394430 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7757608136459875696, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
+  m_PrefabInstance: {fileID: 1219821716}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1219821716
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -865,6 +870,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1407478135}
     - target: {fileID: 1200239214019510939, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
+      propertyPath: ShootOrigin
+      value: 
+      objectReference: {fileID: 1206394430}
+    - target: {fileID: 1200239214019510939, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: shotDistance
       value: 100
       objectReference: {fileID: 0}
@@ -890,7 +899,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3496716865622551260, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.27
+      value: -1.3
       objectReference: {fileID: 0}
     - target: {fileID: 4168976358775781375, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: m_Name
@@ -1158,8 +1167,12 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3496716865622551260, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3496716865622551260, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: -1.3
       objectReference: {fileID: 0}
     - target: {fileID: 4168976358775781375, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: m_Name
@@ -1477,9 +1490,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5738601382380885761, guid: 72567993a56721a4ba588ea8883e7658, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8357413911502163916, guid: 72567993a56721a4ba588ea8883e7658, type: 3}
       propertyPath: m_Name
       value: Gun
+      objectReference: {fileID: 0}
+    - target: {fileID: 8357413911502163916, guid: 72567993a56721a4ba588ea8883e7658, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
