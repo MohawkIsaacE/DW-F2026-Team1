@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     [SerializeField] private SpriteRenderer GunSprite;
     [SerializeField] private Transform body;
     [SerializeField] private GameObject GameMaster;
+    [SerializeField] private AudioClip shoot;
+    [SerializeField] private AudioClip pickUp;
 
     private float shotCooldown = 0.2f;
     private float shotTimer;
@@ -152,6 +154,9 @@ public class Player : MonoBehaviour
 
     void Shoot()
     {
+
+        AudioManager.Instance.PlaySfx(shoot, 0.1f);
+
         // Play shoot particle at the gun position
         smokeParticle.transform.position = GunPrefab.transform.position;
         smokeParticle.GetComponent<ParticleSystem>().Play();
@@ -250,7 +255,7 @@ public class Player : MonoBehaviour
     public void PickupGun(GameObject gunReference)
     {
         hasGun = true;
-
+        AudioManager.Instance.PlaySfx(pickUp, 0.1f);
         // Activate the spinner so the player can aim
         Spinner.SetActive(true);
         // Start pointing the way the player is facing

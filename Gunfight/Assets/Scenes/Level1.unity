@@ -1278,6 +1278,14 @@ PrefabInstance:
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1200239214019510939, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
+      propertyPath: shoot
+      value: 
+      objectReference: {fileID: 8300000, guid: fa02e769cce6760458a9152067821154, type: 3}
+    - target: {fileID: 1200239214019510939, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
+      propertyPath: pickUp
+      value: 
+      objectReference: {fileID: 8300000, guid: 53387c346acdad84db04e2f6eebc1b22, type: 3}
+    - target: {fileID: 1200239214019510939, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: GunPrefab
       value: 
       objectReference: {fileID: 8357413911502163916, guid: 72567993a56721a4ba588ea8883e7658, type: 3}
@@ -2374,6 +2382,14 @@ PrefabInstance:
       propertyPath: jumpCutMultiplier
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 1200239214019510939, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
+      propertyPath: shoot
+      value: 
+      objectReference: {fileID: 8300000, guid: fa02e769cce6760458a9152067821154, type: 3}
+    - target: {fileID: 1200239214019510939, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
+      propertyPath: pickUp
+      value: 
+      objectReference: {fileID: 8300000, guid: 53387c346acdad84db04e2f6eebc1b22, type: 3}
     - target: {fileID: 1200239214019510939, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: GunPrefab
       value: 
