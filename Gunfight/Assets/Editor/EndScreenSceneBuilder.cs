@@ -84,7 +84,7 @@ public static class EndScreenSceneBuilder
         button.targetGraphic = btnImage;
         var colors = button.colors;
         colors.highlightedColor = new Color(1f, 0.85f, 0.3f);
-        colors.selectedColor = new Color(1f, 0.85f, 0.3f);
+        colors.selectedColor = Color.white;
         colors.pressedColor = new Color(0.8f, 0.65f, 0.2f);
         button.colors = colors;
 
