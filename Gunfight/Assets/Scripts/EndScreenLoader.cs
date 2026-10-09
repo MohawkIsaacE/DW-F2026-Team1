@@ -41,6 +41,7 @@ public class EndScreenLoader : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (mode == LoadSceneMode.Additive) return;
         winText = null;
         winSeenTime = -1f;
         if (scene.name != FinalLevelName) return;

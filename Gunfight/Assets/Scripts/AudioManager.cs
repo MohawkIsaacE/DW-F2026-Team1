@@ -72,6 +72,7 @@ public class AudioManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (mode == LoadSceneMode.Additive) return; // overlays (e.g. How To Play) keep the current music
         musicSource.loop = scene.name != EndScreenSceneName || loopEndScreenMusic;
         PlayMusic(MusicForScene(scene.name));
 
