@@ -51,6 +51,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 617e6e9e00b9399439775537e9c4b81e, type: 3}
   endScreenMusic: {fileID: 8300000, guid: bb8fb40e992141340af21dc91000cb95, type: 3}
   loopEndScreenMusic: 0
-  musicVolume: 0.1
+  musicVolume: 0.035
   roundStartSfx: {fileID: 8300000, guid: cdc3fba34de15dd4d87c59e527892476, type: 3}
-  sfxVolume: 0.425
+  sfxVolume: 0.035

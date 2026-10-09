@@ -96,7 +96,7 @@ public class GameMaster : MonoBehaviour
         {
             WinningPlayerText.text = "Player 2 Wins!";
             WinSequence(Player2);
-            player1Points = 0;
+            player2Points = 0;
 
         }
     }
@@ -105,6 +105,8 @@ public class GameMaster : MonoBehaviour
         WinningPlayerText.gameObject.SetActive(true);
         Player1Movement.enabled = false;
         Player2Movement.enabled = false;
+        EndScreenLoader.LastWinner = (WinningPlayer == Player1) ? 1 : 2;
+        EndScreenLoader.LastWinnerText = WinningPlayerText.text;
         await Task.Delay(3000);
 
         SwitchLevel();
@@ -113,7 +115,7 @@ public class GameMaster : MonoBehaviour
     {
         int currentScene = SceneManager.GetActiveScene().buildIndex;
         Debug.Log(currentScene);
-        if (currentScene < 3)
+        if (currentScene + 1 < SceneManager.sceneCountInBuildSettings)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
