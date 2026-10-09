@@ -35,9 +35,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Collider2D Player2Collider;
 
     private Rigidbody2D rb;
+
+    private InputActionMap playerActionMap;
     private InputAction moveAction;
     private InputAction jumpAction;
     private InputAction dropAction;
+    private InputAction shootAction;
+
+    private InputAction aimAction;
+
+    [HideInInspector] public Vector2 rightStickDirection;
     private readonly ContactPoint2D[] contacts = new ContactPoint2D[8];
     private float jumpBufferTimer;
     private bool jumpReleased;
@@ -54,12 +61,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake()
     {
+        Debug.Log("PlayerId: " + (int)playerId);
         rb = GetComponent<Rigidbody2D>();
         rb.freezeRotation = true;
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;   // removes jitter
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
-
+        /*
         // Bindings are built per player so both can use the same keyboard at once
         moveAction = new InputAction("Move", InputActionType.Value);
         jumpAction = new InputAction("Jump", InputActionType.Button);
@@ -81,6 +89,52 @@ public class PlayerMovement : MonoBehaviour
             jumpAction.AddBinding("<Keyboard>/upArrow");
             dropAction.AddBinding("<Keyboard>/downArrow");
         }
+        */
+
+        playerActionMap = new InputActionMap("PlayerControls_" + playerId);
+        /*
+        // New Gamepad controls
+        moveAction = new InputAction("Move", InputActionType.Value);
+        moveAction.AddCompositeBinding("1DAxis")
+            .With("Negative", "<Gamepad>/leftStick/left")
+            .With("Positive", "<Gamepad>/leftStick/right");
+
+        jumpAction = new InputAction("Jump", InputActionType.Button);
+        jumpAction.AddBinding("<Gamepad>/buttonSouth");
+        */
+
+        // I hope you know your Easts and Wests lol
+        moveAction = playerActionMap.AddAction("Move", InputActionType.Value);
+        moveAction.AddBinding("<Gamepad>/leftStick/x");
+        jumpAction = playerActionMap.AddAction("Jump", InputActionType.Button);
+        //jumpAction.AddBinding("<Gamepad>/buttonWest");
+        //jumpAction.AddBinding("<Gamepad>/buttonNorth");
+        jumpAction.AddBinding("<Gamepad>/rightTrigger");
+        jumpAction.AddBinding("<Gamepad>/rightShoulder");
+
+        aimAction = playerActionMap.AddAction("AimDirection", InputActionType.Value);
+        aimAction.AddBinding("<Gamepad>/rightStick");
+
+        shootAction = playerActionMap.AddAction("Shoot", InputActionType.Button);
+        shootAction.AddBinding("<Gamepad>/rightTrigger");
+        shootAction.AddBinding("<Gamepad>/rightShoulder");
+        //shootAction.AddBinding("<Gamepad>/buttonSouth");
+        //shootAction.AddBinding("<Gamepad>/buttonEast");
+
+
+
+        // Check if enough gamepads are connected, if so bind them based on player id
+        if (Gamepad.all.Count > (int)playerId)
+        {
+            Gamepad assignedGamepad = Gamepad.all[(int)playerId];
+            playerActionMap.devices = new[] { assignedGamepad };
+
+        }
+        else
+        {
+            Debug.LogWarning("Waiting for both gamepads to be plugged in!!!");
+        }
+
     }
 
     void OnEnable()
@@ -89,6 +143,7 @@ public class PlayerMovement : MonoBehaviour
         moveAction.Enable();
         jumpAction.Enable();
         dropAction.Enable();
+        playerActionMap.Enable();
     }
 
     void OnDisable()
@@ -96,6 +151,8 @@ public class PlayerMovement : MonoBehaviour
         moveAction.Disable();
         jumpAction.Disable();
         dropAction.Disable();
+        playerActionMap.Disable();
+
         rb.linearVelocity = Vector2.zero;
     }
 
@@ -108,6 +165,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        rightStickDirection = aimAction.ReadValue<Vector2>();
         Vector3 target = new Vector3(1.0f, 1.0f, 1f);
         body.transform.localScale = Vector3.Lerp(body.transform.localScale, target, 10f * Time.deltaTime);
         bool grounded = IsGrounded();
@@ -249,5 +307,9 @@ public class PlayerMovement : MonoBehaviour
     public PlayerId GetPlayerId()
     {
         return playerId;
+    }
+    public bool ShootPressed()
+    {
+        return shootAction.WasPressedThisFrame();
     }
 }
