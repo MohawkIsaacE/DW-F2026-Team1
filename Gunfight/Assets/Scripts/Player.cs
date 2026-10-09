@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
     private GameObject smokeParticle;
     private GameObject sparkParticle;
     private GameObject bloodParticle;
+    private GameObject flashParticle;
 
     void Awake()
     {
@@ -64,6 +65,7 @@ public class Player : MonoBehaviour
         sparkParticle = GameObject.Find("HitParticle");
         smokeParticle = GameObject.Find("ShootParticle");
         bloodParticle = GameObject.Find("BloodParticle");
+        flashParticle = GameObject.Find("MuzzleFlash");
     }
 
     // Update is called once per frame
@@ -135,7 +137,6 @@ public class Player : MonoBehaviour
         // Play shoot particle at the gun position
         smokeParticle.transform.position = GunPrefab.transform.position;
         smokeParticle.GetComponent<ParticleSystem>().Play();
-
         // Shoot a raycast and check if it hit their head
 
         RaycastHit2D hit = Physics2D.Raycast(Spinner.transform.position, Spinner.transform.up, shotDistance, ~layerMask); ;
@@ -175,10 +176,28 @@ public class Player : MonoBehaviour
             }
         }
 
+        // Play muzzle flash to where the shot landed
+        ParticleSystem flash = flashParticle.GetComponent<ParticleSystem>();
+        Vector2 gunPos = GunPrefab.transform.position;
+
+        float length = 30f;   // length if nothing is reached
+        if (hit)
+        {
+            length = Vector2.Distance(gunPos, hit.point);
+        }
+
+        var main = flash.main;
+        main.startSizeY = length;
+
+        flashParticle.transform.position = gunPos + (Vector2)Spinner.transform.up * (length / 2f);
+        flashParticle.transform.rotation = Spinner.transform.rotation;
+        flash.Play();
+
+
         // =========== Play special effects
 
         // 
-        if (hit.collider.gameObject.tag == "SolidObject")
+        if (hit && hit.collider.gameObject.tag == "SolidObject")
         {
             // Play special miss effect
             sparkParticle.transform.position = hit.point;
