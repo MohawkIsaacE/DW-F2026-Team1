@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using UnityEngine.SceneManagement;
 using static UnityEngine.GraphicsBuffer;
 
 //   Player 1: A / D to move, W to jump
@@ -41,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
     private bool hasAirDash = true;
     private bool dashRequested;
     private float dashTimer;
+    private float quitTimer = 0f;
     private Vector2 dashDir;
 
     [SerializeField] private float dropThroughTime = 0.3f;
@@ -57,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
     private InputAction shootAction;
 
     private InputAction aimAction;
+    private InputAction quitAction;
 
     [HideInInspector] public Vector2 rightStickDirection;
     [HideInInspector] public bool inputLocked;
@@ -126,6 +129,9 @@ public class PlayerMovement : MonoBehaviour
 
         aimAction = playerActionMap.AddAction("AimDirection", InputActionType.Value);
         aimAction.AddBinding("<Gamepad>/rightStick");
+        
+        quitAction = playerActionMap.AddAction("Quit", InputActionType.Value);
+        quitAction.AddBinding("<Gamepad>/buttonSouth");
 
         shootAction = playerActionMap.AddAction("Shoot", InputActionType.Button);
         shootAction.AddBinding("<Gamepad>/rightTrigger");
@@ -178,6 +184,20 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (quitAction.IsPressed())
+        {
+            quitTimer += 0.1f;
+            if (quitTimer > 10f)
+            {
+                GoMain();
+            }
+            
+        }
+        else
+        {
+            quitTimer = 0f;
+        }
+
         rightStickDirection = inputLocked ? Vector2.zero : aimAction.ReadValue<Vector2>();
         Vector3 target = new Vector3(1.0f, 1.0f, 1f);
         body.transform.localScale = Vector3.Lerp(body.transform.localScale, target, 10f * Time.deltaTime);
@@ -433,5 +453,9 @@ public class PlayerMovement : MonoBehaviour
         dashTimer = 0f;
         hasAirDash = true;
         anim.Play("Idle", 0, 0f); // spawn as idle
+    }
+    public void GoMain()
+    {
+        SceneManager.LoadScene("Main Menu");
     }
 }
