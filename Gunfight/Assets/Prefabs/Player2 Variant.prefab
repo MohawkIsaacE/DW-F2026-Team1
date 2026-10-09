@@ -30,11 +30,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 331016416351552673, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 0.86
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 331016416351552673, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 1.25
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1131006934845510022, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: body
@@ -43,18 +43,6 @@ PrefabInstance:
     - target: {fileID: 1131006934845510022, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: playerId
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1131006934845510022, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
-      propertyPath: jumpSpeed
-      value: 19
-      objectReference: {fileID: 0}
-    - target: {fileID: 1131006934845510022, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
-      propertyPath: moveSpeed
-      value: 9.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1131006934845510022, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
-      propertyPath: fallSpeedAccel
-      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 1200239214019510939, guid: 7f64fc5b55e131b40b06e60ce2ad925e, type: 3}
       propertyPath: GunPrefab

@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
     //private float rotateSpeed = 180f;
     private LayerMask layerMask;
     public bool hasGun;
-
+    [HideInInspector] public int lastShotFrame = -1;
     private PlayerMovement player;
     private GameMaster GameMasterScript;
     private Gun GunScript;
@@ -31,6 +31,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private Collider2D Player1Collider;
     [SerializeField] private Collider2D Player2Collider;
+    [SerializeField] private Collider2D stealBox;
+    public Collider2D StealBox => stealBox;
 
     public bool flipped_facing = false;
     [Header("Particle Effects")]
@@ -89,6 +91,10 @@ public class Player : MonoBehaviour
 
         if (hasGun) RotateGun();
         UpdateFacing();
+        if (GameMasterScript != null && GameMasterScript.gunSteal)
+        {
+            TryStealGun();
+        }
     }
     Vector2 GetAimDirection()
     {
@@ -157,6 +163,7 @@ public class Player : MonoBehaviour
 
     void Shoot()
     {
+        lastShotFrame = Time.frameCount;
         Camera.main.GetComponent<CameraHandle>().ScreenShake(-Spinner.transform.up, 0.11f, 0.11f);
         // Play shoot particle at the gun position
         smokeParticle.transform.position = GunPrefab.transform.position;
@@ -255,7 +262,31 @@ public class Player : MonoBehaviour
         linePos.x = pointingLeft ? lineOffset : -lineOffset;
         shootLine.localPosition = linePos;
     }
+    void TryStealGun()
+    {
+        // only works if you got no gun
+        if (hasGun || !player.IsDashing()) return;
+        bool iAmPlayer1 = player.GetPlayerId() == PlayerMovement.PlayerId.Player1;
+        Collider2D otherCol = iAmPlayer1 ? Player2Collider : Player1Collider;
+        Player other = otherCol.GetComponent<Player>();
+        // also has to check if the other player has a gun
+        if (!other.hasGun) return;
+        if (!stealBox.bounds.Intersects(other.StealBox.bounds)) return;
+        GameObject gun = other.LoseGun();
+        PickupGun(gun);
+    }
 
+    public GameObject LoseGun()
+    {
+        // Lets go of the gun without throwing or respawning it
+        hasGun = false;
+        Spinner.SetActive(false);
+        Vector3 scale = GunPrefab.transform.localScale;
+        scale.y = Mathf.Abs(scale.y);
+        GunPrefab.transform.localScale = scale;
+
+        return GunPrefab;
+    }
     public void PickupGun(GameObject gunReference)
     {
         hasGun = true;
@@ -268,6 +299,7 @@ public class Player : MonoBehaviour
         // Hold the gun
         GunPrefab = gunReference;
         GunPrefab.transform.SetParent(transform.Find("Spinner").gameObject.transform);
+        GunPrefab.transform.rotation = Spinner.transform.rotation * Quaternion.Euler(0, 0, 90f);
 
         // Colour the gun by player (flipping is handled in RotateGun now)
         if (player.GetPlayerId() == PlayerMovement.PlayerId.Player2)

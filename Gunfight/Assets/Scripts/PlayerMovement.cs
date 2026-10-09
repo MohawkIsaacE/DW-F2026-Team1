@@ -35,6 +35,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashEndMultiplier = 0.5f;   // speed multiplier when the dash ends
     [SerializeField] private AudioClip dashSound;
     [SerializeField, Range(0f, 3f)] private float dashVolume = 1f;
+    [SerializeField] private float groundDashCooldown = 0.4f;
+    private bool groundDashRequested;
+    private float groundDashCooldownTimer;
     private bool hasAirDash = true;
     private bool dashRequested;
     private float dashTimer;
@@ -197,6 +200,17 @@ public class PlayerMovement : MonoBehaviour
         {
             jumpBufferTimer -= Time.deltaTime;
         }
+
+        // shoot button with no gun while grounded to ground dash
+        groundDashCooldownTimer -= Time.deltaTime;
+        if (!inputLocked && grounded && !player_movement.hasGun
+            && player_movement.lastShotFrame != Time.frameCount
+            && shootAction.WasPressedThisFrame()
+            && dashTimer <= 0f && groundDashCooldownTimer <= 0f)
+        {
+            groundDashRequested = true;
+        }
+
         if (jumpAction.WasReleasedThisFrame())
             jumpReleased = true;
 
@@ -239,17 +253,23 @@ public class PlayerMovement : MonoBehaviour
         if (dashRequested)
         {
             dashRequested = false;
+
             Vector2 stick = new Vector2(moveAction.ReadValue<float>(), dropAction.ReadValue<float>());
             if (stick.magnitude < 0.2f)
             {
                 stick = new Vector2(player_movement.flipped_facing ? -1f : 1f, 0f);
             }
 
-            dashDir = stick.normalized;
-            dashTimer = dashDuration;
             hasAirDash = false;
-            jumpBufferTimer = 0f;
-            AudioManager.Instance.PlaySfx(dashSound, 0.1f, dashVolume);
+            StartDash(stick);
+        }
+
+        // Start a ground dash
+        if (groundDashRequested)
+        {
+            groundDashRequested = false;
+            groundDashCooldownTimer = groundDashCooldown;
+            StartDash(new Vector2(player_movement.flipped_facing ? -1f : 1f, 0f));
         }
 
         // fixed speed in one direction and no gravity
@@ -334,7 +354,13 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-
+    void StartDash(Vector2 direction)
+    {
+        dashDir = direction.normalized;
+        dashTimer = dashDuration;
+        jumpBufferTimer = 0f;
+        AudioManager.Instance.PlaySfx(dashSound, 0.1f, dashVolume);
+    }
     IEnumerator IgnorePlatform(Collider2D platform)
     {
         droppingThrough = true;
@@ -402,6 +428,8 @@ public class PlayerMovement : MonoBehaviour
         anim.SetFloat("VelY", 0f);
         anim.SetBool("Grounded", true);
         anim.SetBool("Dashing", false);
+        groundDashRequested = false;
+        groundDashCooldownTimer = 0f;
         dashTimer = 0f;
         hasAirDash = true;
         anim.Play("Idle", 0, 0f); // spawn as idle

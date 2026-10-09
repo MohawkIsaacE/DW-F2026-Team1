@@ -91,6 +91,84 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &342853757869012597
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5305446841271254625}
+  - component: {fileID: 605422135924524034}
+  m_Layer: 2
+  m_Name: StealBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5305446841271254625
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 342853757869012597}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4668486783229354187}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &605422135924524034
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 342853757869012597}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.035680562, y: -1.5547754}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.52959675, y: 1.0264833}
+  m_EdgeRadius: 0
 --- !u!1 &1687896531793640012
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,6 +596,7 @@ Transform:
   - {fileID: 8308091831820228762}
   - {fileID: 5840792130657153066}
   - {fileID: 3496716865622551260}
+  - {fileID: 5305446841271254625}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &-2124014308403800427
@@ -587,8 +666,10 @@ MonoBehaviour:
   shoot: {fileID: 8300000, guid: fa02e769cce6760458a9152067821154, type: 3}
   pickUp: {fileID: 8300000, guid: 53387c346acdad84db04e2f6eebc1b22, type: 3}
   hasGun: 0
+  lastShotFrame: -1
   Player1Collider: {fileID: 0}
   Player2Collider: {fileID: 0}
+  stealBox: {fileID: 605422135924524034}
   flipped_facing: 0
 --- !u!50 &7729020953074524922
 Rigidbody2D:
@@ -632,22 +713,23 @@ MonoBehaviour:
   playerId: 0
   body: {fileID: 5840792130657153066}
   anim: {fileID: 1504348597700837546}
-  moveSpeed: 8
+  moveSpeed: 13
   groundAccel: 90
   groundDecel: 110
   airAccel: 60
   airDecel: 40
   allowJump: 1
-  jumpSpeed: 18
+  jumpSpeed: 19
   jumpCutMultiplier: 0.1
   jumpBufferTime: 0.1
   maxFallSpeed: 20
-  fallSpeedAccel: 0.8
+  fallSpeedAccel: 0.77
   dashSpeed: 18
   dashDuration: 0.15
   dashEndMultiplier: 0.5
   dashSound: {fileID: 8300000, guid: a0e87b4093c88bb47b17250d8a046443, type: 3}
-  dashVolume: 0.55
+  dashVolume: 0.85
+  groundDashCooldown: 0.4
   dropThroughTime: 0.3
   Player1Collider: {fileID: 0}
   Player2Collider: {fileID: 0}

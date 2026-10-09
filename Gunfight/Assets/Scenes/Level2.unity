@@ -377,7 +377,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2299368687984188496, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x
-      value: 5.526423
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1616555624734273264, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
       propertyPath: m_Size.x
@@ -391,6 +391,14 @@ PrefabInstance:
       propertyPath: m_Color.g
       value: 0.9647059
       objectReference: {fileID: 0}
+    - target: {fileID: 1616555624734273264, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
+      propertyPath: m_SortingOrder
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486893322323480228, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
+      propertyPath: m_SurfaceArc
+      value: 190
+      objectReference: {fileID: 0}
     - target: {fileID: 5508429148696571119, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
       propertyPath: m_Name
       value: Platform (4)
@@ -401,7 +409,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7649535178790237613, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.75
+      value: -4.87
       objectReference: {fileID: 0}
     - target: {fileID: 7649535178790237613, guid: 5884e3fd73542fb49acdd753889c3845, type: 3}
       propertyPath: m_LocalPosition.z
@@ -484,6 +492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8be28cfb18a40e498ac747c0584d33c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameMaster
+  gunSteal: 0
   Player1: {fileID: 803471554}
   Player2: {fileID: 1676129770}
   Player1Spawn: {fileID: 467007369}
