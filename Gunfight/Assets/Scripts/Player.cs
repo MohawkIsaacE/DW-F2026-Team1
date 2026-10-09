@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     private float shotTimer;
     private float angle;
     private float shotDistance = 100f;
-    private float rotateSpeed = 180f;
+    //private float rotateSpeed = 180f;
     private LayerMask layerMask;
     public bool hasGun;
 
@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
             shotTimer -= Time.deltaTime;
         }
         // Check if shooting can happen
-        if (hasGun && ShootAction.action.WasPressedThisFrame() && shotTimer <= 0f)
+        if (hasGun && player.ShootPressed() && shotTimer <= 0f)
         {
             Shoot();
             shotTimer = shotCooldown;

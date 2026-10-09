@@ -33,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     private InputActionMap playerActionMap;
     private InputAction moveAction;
     private InputAction jumpAction;
+    private InputAction shootAction;
 
     private InputAction aimAction;
 
@@ -80,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
         */
 
         playerActionMap = new InputActionMap("PlayerControls_" + playerId);
-
+        /*
         // New Gamepad controls
         moveAction = new InputAction("Move", InputActionType.Value);
         moveAction.AddCompositeBinding("1DAxis")
@@ -89,15 +90,32 @@ public class PlayerMovement : MonoBehaviour
 
         jumpAction = new InputAction("Jump", InputActionType.Button);
         jumpAction.AddBinding("<Gamepad>/buttonSouth");
+        */
+
+        // I hope you know your Easts and Wests lol
+        moveAction = playerActionMap.AddAction("Move", InputActionType.Value);
+        moveAction.AddBinding("<Gamepad>/leftStick/x");
+        jumpAction = playerActionMap.AddAction("Jump", InputActionType.Button);
+        //jumpAction.AddBinding("<Gamepad>/buttonWest");
+        //jumpAction.AddBinding("<Gamepad>/buttonNorth");
+        jumpAction.AddBinding("<Gamepad>/rightTrigger");
+        jumpAction.AddBinding("<Gamepad>/rightShoulder");
 
         aimAction = playerActionMap.AddAction("AimDirection", InputActionType.Value);
         aimAction.AddBinding("<Gamepad>/rightStick");
+
+        shootAction = playerActionMap.AddAction("Shoot", InputActionType.Button);
+        shootAction.AddBinding("<Gamepad>/rightTrigger");
+        shootAction.AddBinding("<Gamepad>/rightShoulder");
+        //shootAction.AddBinding("<Gamepad>/buttonSouth");
+        //shootAction.AddBinding("<Gamepad>/buttonEast");
+
+
 
         // Check if enough gamepads are connected, if so bind them based on player id
         if (Gamepad.all.Count > (int)playerId)
         {
             Gamepad assignedGamepad = Gamepad.all[(int)playerId];
-
             playerActionMap.devices = new[] { assignedGamepad };
 
         }
@@ -218,5 +236,9 @@ public class PlayerMovement : MonoBehaviour
     public PlayerId GetPlayerId()
     {
         return playerId;
+    }
+    public bool ShootPressed()
+    {
+        return shootAction.WasPressedThisFrame();
     }
 }
