@@ -120,7 +120,15 @@ public class AudioManager : MonoBehaviour
         }
         if (musicSource.clip == clip && musicSource.isPlaying) return;
         musicSource.clip = clip;
-        musicSource.Play();
+        if (clip != endScreenMusic)
+        {
+            musicSource.Play();
+        }
+        else
+        {
+            musicSource.PlayOneShot(clip, 2.5f);
+        }
+        
     }
 
     public void PlaySfx(AudioClip clip, float pitchVariation = 0f, float volume = 1f)
@@ -131,6 +139,6 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayCrit()
     {
-        PlaySfx(critSfx, 0.05f, 0.2f);
+        PlaySfx(critSfx, 0.05f, 0.4f);
     }
 }
