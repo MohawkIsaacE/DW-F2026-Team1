@@ -153,7 +153,7 @@ public class Player : MonoBehaviour
 
     void Shoot()
     {
-        Camera.main.GetComponent<CameraHandle>().ScreenShake(-Spinner.transform.up, 0.1f, 0.1f);
+        Camera.main.GetComponent<CameraHandle>().ScreenShake(-Spinner.transform.up, 0.11f, 0.11f);
         AudioManager.Instance.PlaySfx(shoot, 0.1f);
 
         // Play shoot particle at the gun position
@@ -183,7 +183,7 @@ public class Player : MonoBehaviour
                 // Play special blood effect
                 bloodParticle.transform.position = hit.collider.transform.position;
                 bloodParticle.GetComponent<ParticleSystem>().Play();
-                Camera.main.GetComponent<CameraHandle>().ScreenShake(-Spinner.transform.up, 0.13f, 0.13f);
+                Camera.main.GetComponent<CameraHandle>().ScreenShake(-Spinner.transform.up, 0.15f, 0.15f);
             }
         }
         if (player.GetPlayerId() == PlayerMovement.PlayerId.Player2)
@@ -196,7 +196,7 @@ public class Player : MonoBehaviour
                 // Play special blood effect
                 bloodParticle.transform.position = hit.collider.transform.position;
                 bloodParticle.GetComponent<ParticleSystem>().Play();
-                Camera.main.GetComponent<CameraHandle>().ScreenShake(-Spinner.transform.up, 0.13f, 0.13f);
+                Camera.main.GetComponent<CameraHandle>().ScreenShake(-Spinner.transform.up, 0.15f, 0.15f);
             }
         }
 

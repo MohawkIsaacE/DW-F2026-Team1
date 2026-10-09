@@ -84,7 +84,7 @@ public class CameraHandle : MonoBehaviour
         if (shakeTimer > 0f)
         {
             shakeTimer -= Time.deltaTime;
-            float fade = shakeTimer / shakeDuration;   // 1 at the start, 0 at the end
+            float fade = shakeTimer / shakeDuration;
             Vector2 shake = (Random.insideUnitCircle + shakeDir) * shakeStrength * fade;
             offset = new Vector3(shake.x, shake.y, 0f);
         }

@@ -45,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
     private InputAction aimAction;
 
     [HideInInspector] public Vector2 rightStickDirection;
+    [HideInInspector] public bool inputLocked;
     private readonly ContactPoint2D[] contacts = new ContactPoint2D[8];
     private float jumpBufferTimer;
     private bool jumpReleased;
@@ -160,12 +161,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        rightStickDirection = aimAction.ReadValue<Vector2>();
+        rightStickDirection = inputLocked ? Vector2.zero : aimAction.ReadValue<Vector2>();
         Vector3 target = new Vector3(1.0f, 1.0f, 1f);
         body.transform.localScale = Vector3.Lerp(body.transform.localScale, target, 10f * Time.deltaTime);
         bool grounded = IsGrounded();
 
-        if (allowJump && jumpAction.WasPressedThisFrame())
+        if (!inputLocked && allowJump && jumpAction.WasPressedThisFrame())
         {
             jumpBufferTimer = jumpBufferTime;
             body.transform.localScale = new Vector3(0.8f, 1.4f, 1f);
@@ -179,7 +180,7 @@ public class PlayerMovement : MonoBehaviour
 
         float input = dropAction.ReadValue<float>();
 
-        if (input < -0.6f)
+        if (!inputLocked && input < -0.6f)
         {
             dropReleased = true;
         }
@@ -202,7 +203,7 @@ public class PlayerMovement : MonoBehaviour
         bool grounded = IsGrounded();
         Vector2 vel = rb.linearVelocity;
 
-        float input = moveAction.ReadValue<float>();
+        float input = inputLocked ? 0f : moveAction.ReadValue<float>();
         float target = input * moveSpeed;
 
         float rate;
@@ -307,10 +308,10 @@ public class PlayerMovement : MonoBehaviour
     }
     public bool ShootPressed()
     {
-        return shootAction.WasPressedThisFrame();
+        return !inputLocked && shootAction.WasPressedThisFrame();
     }
     public float GetMoveInput()
     {
-        return moveAction.ReadValue<float>();
+        return inputLocked ? 0f : moveAction.ReadValue<float>();
     }
 }

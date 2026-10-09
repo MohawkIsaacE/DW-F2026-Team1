@@ -34,31 +34,50 @@ public class GameMaster : MonoBehaviour
     }
     public void KillSequence(GameObject WinningPlayer)
     {
-        if (WinningPlayer != null)
-        {
-            if (WinningPlayer == Player1)
-            {
-                player1Points++;
-                Player1PointsText.text = player1Points.ToString();
-                if (player1Points < winScore)
-                {
-                    Respawn();
-                }
-            }
-            if (WinningPlayer == Player2)
-            {
-                player2Points++;
-                Player2PointsText.text = player2Points.ToString();
+        if (WinningPlayer == null) return;
 
-                if (player2Points < winScore)
-                {
-                    Respawn();
-                }
-            }
+        if (WinningPlayer == Player1)
+        {
+            player1Points++;
+            Player1PointsText.text = player1Points.ToString();
+        }
+        if (WinningPlayer == Player2)
+        {
+            player2Points++;
+            Player2PointsText.text = player2Points.ToString();
+        }
+
+        // Check now, before CheckWin resets the score
+        bool matchWon = player1Points >= winScore || player2Points >= winScore;
+        KillPause(matchWon);
+    }
+
+    async void KillPause(bool matchWon)
+    {
+        // Hitlag
+        Time.timeScale = 0f;
+        await Task.Delay(120);
+        Time.timeScale = 1f;
+        if (this == null) return;
+
+        // Stop player's input while round ends
+        Player1Movement.inputLocked = true;
+        Player2Movement.inputLocked = true;
+
+        // Wait before the next round
+        await Task.Delay(1000);
+        if (this == null) return;
+
+        // The win screen handles the last kill
+        if (!matchWon)
+        {
+            Respawn();
         }
     }
     void Respawn()
     {
+        Player1Movement.inputLocked = false;
+        Player2Movement.inputLocked = false;
         Player1.SetActive(true);
         Player2.SetActive(true);
         Player1.transform.position = Player1Spawn.transform.position;
