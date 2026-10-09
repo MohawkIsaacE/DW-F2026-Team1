@@ -314,4 +314,20 @@ public class PlayerMovement : MonoBehaviour
     {
         return inputLocked ? 0f : moveAction.ReadValue<float>();
     }
+    public void KnockDown()
+    {
+        anim.SetBool("Dead", true);
+    }
+    public void ResetAnim()
+    {
+        if (anim == null) return;
+        anim.SetBool("Dead", false);
+
+        // Reset any values from last round
+        anim.SetFloat("Speed", 0f);
+        anim.SetFloat("VelY", 0f);
+        anim.SetBool("Grounded", true);
+
+        anim.Play("Idle", 0, 0f); // spawn as idle
+    }
 }

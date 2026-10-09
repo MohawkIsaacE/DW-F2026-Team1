@@ -154,8 +154,6 @@ public class Player : MonoBehaviour
     void Shoot()
     {
         Camera.main.GetComponent<CameraHandle>().ScreenShake(-Spinner.transform.up, 0.11f, 0.11f);
-        AudioManager.Instance.PlaySfx(shoot, 0.1f);
-
         // Play shoot particle at the gun position
         smokeParticle.transform.position = GunPrefab.transform.position;
         smokeParticle.GetComponent<ParticleSystem>().Play();
@@ -227,6 +225,7 @@ public class Player : MonoBehaviour
             sparkParticle.transform.position = hit.point;
             sparkParticle.GetComponent<ParticleSystem>().Play();
         }
+        AudioManager.Instance.PlaySfx(shoot, 0.1f);
         // Throw the gun after you shoot
         DropGun();
     }

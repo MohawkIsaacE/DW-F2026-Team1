@@ -36,6 +36,9 @@ public class GameMaster : MonoBehaviour
     {
         if (WinningPlayer == null) return;
 
+        GameObject loser = (WinningPlayer == Player1) ? Player2 : Player1;
+        loser.GetComponent<PlayerMovement>().KnockDown();
+
         if (WinningPlayer == Player1)
         {
             player1Points++;
@@ -78,6 +81,8 @@ public class GameMaster : MonoBehaviour
     {
         Player1Movement.inputLocked = false;
         Player2Movement.inputLocked = false;
+        Player1Movement.ResetAnim();
+        Player2Movement.ResetAnim();
         Player1.SetActive(true);
         Player2.SetActive(true);
         Player1.transform.position = Player1Spawn.transform.position;
