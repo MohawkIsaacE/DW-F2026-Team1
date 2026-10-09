@@ -419,6 +419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8be28cfb18a40e498ac747c0584d33c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameMaster
+  gunSteal: 0
   Player1: {fileID: 803471554}
   Player2: {fileID: 1676129770}
   Player1Spawn: {fileID: 467007369}

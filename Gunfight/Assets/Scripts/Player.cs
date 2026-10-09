@@ -236,7 +236,7 @@ public class Player : MonoBehaviour
             sparkParticle.transform.position = hit.point;
             sparkParticle.GetComponent<ParticleSystem>().Play();
         }
-        AudioManager.Instance.PlaySfx(shoot, 0.1f);
+        AudioManager.Instance.PlaySfx(shoot, 0.1f, 1.4f);
         // Throw the gun after you shoot
         DropGun();
     }

@@ -54,4 +54,4 @@ MonoBehaviour:
   musicVolume: 0.035
   roundStartSfx: {fileID: 8300000, guid: cdc3fba34de15dd4d87c59e527892476, type: 3}
   critSfx: {fileID: 8300000, guid: 989de6ed98aac8448a63100a4ebc8ec6, type: 3}
-  sfxVolume: 0.035
+  sfxVolume: 0.065
