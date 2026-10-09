@@ -18,6 +18,7 @@ public class HowToPlayScreen : MonoBehaviour
         shownAt = Time.unscaledTime;
         dismissAction = new InputAction("Dismiss", InputActionType.Button);
         dismissAction.AddBinding("<Gamepad>/buttonSouth");
+        dismissAction.AddBinding("<Gamepad>/buttonEast");
         dismissAction.AddBinding("<Gamepad>/start");
         dismissAction.AddBinding("<Keyboard>/enter");
         dismissAction.AddBinding("<Keyboard>/space");

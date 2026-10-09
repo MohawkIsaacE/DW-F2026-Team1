@@ -165,7 +165,7 @@ public class PlayerMovement : MonoBehaviour
         body.transform.localScale = Vector3.Lerp(body.transform.localScale, target, 10f * Time.deltaTime);
         bool grounded = IsGrounded();
 
-        if (allowJump && jumpAction.WasPressedThisFrame() && IsGrounded())
+        if (allowJump && jumpAction.WasPressedThisFrame())
         {
             jumpBufferTimer = jumpBufferTime;
             body.transform.localScale = new Vector3(0.8f, 1.4f, 1f);
@@ -222,7 +222,7 @@ public class PlayerMovement : MonoBehaviour
         // Apply movement by rate over time
         vel.x = Mathf.MoveTowards(vel.x, target, rate * Time.fixedDeltaTime);
 
-        if (jumpBufferTimer > 0f)
+        if (jumpBufferTimer > 0f && IsGrounded())
         {
             vel.y = jumpSpeed;
             jumpBufferTimer = 0f;

@@ -72,4 +72,10 @@ public class CameraHandle : MonoBehaviour
         transform.position = pos;
 
     }
+
+    void screenShake(Vector3(0,0,0) dir,float time)
+    {
+
+    }
+
 }

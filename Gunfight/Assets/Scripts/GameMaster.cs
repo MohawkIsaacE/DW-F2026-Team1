@@ -42,7 +42,6 @@ public class GameMaster : MonoBehaviour
                 Player1PointsText.text = player1Points.ToString();
                 if (player1Points < winScore)
                 {
-                    TimerSequence();
                     Respawn();
                 }
             }
@@ -53,7 +52,6 @@ public class GameMaster : MonoBehaviour
 
                 if (player2Points < winScore)
                 {
-                    TimerSequence();
                     Respawn();
                 }
             }
@@ -74,10 +72,13 @@ public class GameMaster : MonoBehaviour
         Timer.gameObject.SetActive(true);
         Timer.text = "3";
         await Task.Delay(1000);
+        if (this == null) return;
         Timer.text = "2";
         await Task.Delay(1000);
+        if (this == null) return;
         Timer.text = "1";
         await Task.Delay(1000);
+        if (this == null) return;
         Timer.gameObject.SetActive(false);
         Player1Movement.enabled = true;
         Player2Movement.enabled = true;

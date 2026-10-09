@@ -554,7 +554,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.00042927265}
+  m_Offset: {x: 0.0031871796, y: -1.5055108}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -564,7 +564,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 0.99914193}
+  m_Size: {x: 0.87888336, y: 1.2300673}
   m_EdgeRadius: 0
 --- !u!114 &1200239214019510939
 MonoBehaviour:
@@ -584,6 +584,8 @@ MonoBehaviour:
   GunSprite: {fileID: 0}
   body: {fileID: 0}
   GameMaster: {fileID: 0}
+  shoot: {fileID: 8300000, guid: fa02e769cce6760458a9152067821154, type: 3}
+  pickUp: {fileID: 8300000, guid: 53387c346acdad84db04e2f6eebc1b22, type: 3}
   hasGun: 0
   Player1Collider: {fileID: 0}
   Player2Collider: {fileID: 0}
@@ -630,14 +632,18 @@ MonoBehaviour:
   playerId: 0
   body: {fileID: 5840792130657153066}
   anim: {fileID: 1504348597700837546}
-  moveSpeed: 6
+  moveSpeed: 8
   groundAccel: 90
   groundDecel: 110
   airAccel: 60
   airDecel: 40
   allowJump: 1
-  jumpSpeed: 9
+  jumpSpeed: 18
   jumpCutMultiplier: 0.1
   jumpBufferTime: 0.1
   maxFallSpeed: 20
+  fallSpeedAccel: 0.8
+  dropThroughTime: 0.3
+  Player1Collider: {fileID: 0}
+  Player2Collider: {fileID: 0}
   rightStickDirection: {x: 0, y: 0}
