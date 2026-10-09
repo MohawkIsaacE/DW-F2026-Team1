@@ -291,7 +291,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Grounded when touching something that pushes up on us
-    private bool IsGrounded()
+    public bool IsGrounded()
     {
         int count = rb.GetContacts(contacts);
         for (int i = 0; i < count; i++)
@@ -308,5 +308,9 @@ public class PlayerMovement : MonoBehaviour
     public bool ShootPressed()
     {
         return shootAction.WasPressedThisFrame();
+    }
+    public float GetMoveInput()
+    {
+        return moveAction.ReadValue<float>();
     }
 }

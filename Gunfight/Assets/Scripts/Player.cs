@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     private float shotTimer;
     private float angle;
     private float shotDistance = 100f;
+    private float handOffset = 0.4f;   // how far to the side the gun is held
+    private float lineOffset = 0.5f;   // shifts the aim line onto the barrel
     //private float rotateSpeed = 180f;
     private LayerMask layerMask;
     public bool hasGun;
@@ -123,7 +125,17 @@ public class Player : MonoBehaviour
                 flip_facing = true;
             }
         }
-
+        // Running overrides facing
+        float moveInput = player.GetMoveInput();
+        if (player.IsGrounded())
+            if (moveInput > 0.1f)
+            {
+                flip_facing = false;
+            }
+            else if (moveInput < -0.1f)
+            {
+                flip_facing = true;
+            }
 
         SetFacing(flip_facing);
     }
@@ -131,7 +143,13 @@ public class Player : MonoBehaviour
     {
         body.GetComponent<SpriteRenderer>().flipX = facing;
         flipped_facing = facing;
+
+        // Hold the gun in the hand on the side we're facing
+        Vector3 handPos = Spinner.transform.localPosition;
+        handPos.x = facing ? -handOffset : handOffset;
+        Spinner.transform.localPosition = handPos;
     }
+
     void Shoot()
     {
         // Play shoot particle at the gun position
@@ -210,13 +228,23 @@ public class Player : MonoBehaviour
     void RotateGun()
     {
         // Turn right stick directions into angle and rotate gun by it
-
         Vector2 direction = player.rightStickDirection;
         if (direction.magnitude > 0.1f)
         {
-            angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
         }
         Spinner.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        // so it's never upside down
+        bool pointingLeft = Spinner.transform.up.x < 0f;
+        Vector3 scale = GunPrefab.transform.localScale;
+        scale.y = pointingLeft ? -Mathf.Abs(scale.y) : Mathf.Abs(scale.y);
+        GunPrefab.transform.localScale = scale;
+        // The barrel switches sides when the gun is mirrored, so move the aim line with it
+        Transform shootLine = Spinner.transform.Find("ShootLine");
+        Vector3 linePos = shootLine.localPosition;
+        linePos.x = pointingLeft ? lineOffset : -lineOffset;
+        shootLine.localPosition = linePos;
     }
 
     public void PickupGun(GameObject gunReference)
@@ -225,20 +253,21 @@ public class Player : MonoBehaviour
 
         // Activate the spinner so the player can aim
         Spinner.SetActive(true);
-        angle = 0f;
+        // Start pointing the way the player is facing
+        angle = flipped_facing ? 90f : -90f;
 
         // Hold the gun
         GunPrefab = gunReference;
         GunPrefab.transform.SetParent(transform.Find("Spinner").gameObject.transform);
+
+        // Colour the gun by player (flipping is handled in RotateGun now)
         if (player.GetPlayerId() == PlayerMovement.PlayerId.Player2)
         {
-            GunSprite.flipY = true;
             GunSprite.color = new Color(1f, 0.5f, 0f, 1f);
-        } else
+        }
+        else
         {
-            GunSprite.flipY = false;
             GunSprite.color = new Color(0.1f, 1f, 0f, 1f);
-
         }
     }
 
@@ -256,6 +285,9 @@ public class Player : MonoBehaviour
         // Stop holding the gun
         GunPrefab.transform.SetParent(GameObject.Find("GunStorage").transform);
 
+        Vector3 scale = GunPrefab.transform.localScale;
+        scale.y = Mathf.Abs(scale.y);
+        GunPrefab.transform.localScale = scale;
         // Throw the gun away
         GunPrefab.GetComponent<Gun>().Respawn();
     }
