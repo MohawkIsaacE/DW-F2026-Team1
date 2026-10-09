@@ -92,25 +92,19 @@ public class PlayerMovement : MonoBehaviour
         */
 
         playerActionMap = new InputActionMap("PlayerControls_" + playerId);
-        /*
         // New Gamepad controls
-        moveAction = new InputAction("Move", InputActionType.Value);
-        moveAction.AddCompositeBinding("1DAxis")
-            .With("Negative", "<Gamepad>/leftStick/left")
-            .With("Positive", "<Gamepad>/leftStick/right");
 
-        jumpAction = new InputAction("Jump", InputActionType.Button);
-        jumpAction.AddBinding("<Gamepad>/buttonSouth");
-        */
 
         // I hope you know your Easts and Wests lol
+        dropAction = playerActionMap.AddAction("Drop", InputActionType.Value);
+        dropAction.AddBinding("<Gamepad>/leftStick/y");
         moveAction = playerActionMap.AddAction("Move", InputActionType.Value);
         moveAction.AddBinding("<Gamepad>/leftStick/x");
         jumpAction = playerActionMap.AddAction("Jump", InputActionType.Button);
         //jumpAction.AddBinding("<Gamepad>/buttonWest");
         //jumpAction.AddBinding("<Gamepad>/buttonNorth");
-        jumpAction.AddBinding("<Gamepad>/rightTrigger");
-        jumpAction.AddBinding("<Gamepad>/rightShoulder");
+        jumpAction.AddBinding("<Gamepad>/leftTrigger");
+        jumpAction.AddBinding("<Gamepad>/leftShoulder");
 
         aimAction = playerActionMap.AddAction("AimDirection", InputActionType.Value);
         aimAction.AddBinding("<Gamepad>/rightStick");
@@ -161,6 +155,7 @@ public class PlayerMovement : MonoBehaviour
         moveAction.Dispose();
         jumpAction.Dispose();
         dropAction.Dispose();
+        playerActionMap.Dispose();
     }
 
     void Update()
@@ -182,7 +177,9 @@ public class PlayerMovement : MonoBehaviour
         if (jumpAction.WasReleasedThisFrame())
             jumpReleased = true;
 
-        if (dropAction.WasPressedThisFrame())
+        float input = dropAction.ReadValue<float>();
+
+        if (input < -0.6f)
         {
             dropReleased = true;
         }
