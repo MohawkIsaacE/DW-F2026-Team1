@@ -16,10 +16,18 @@ public class CameraHandle : MonoBehaviour
     public Transform player1;
     public Transform player2;
     private Camera cam;
+
+    // Screen shake
+    private Vector3 basePos;
+    private float shakeTimer;
+    private float shakeDuration;
+    private float shakeStrength;
+    private Vector2 shakeDir;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         cam = GetComponent<Camera>();
+        basePos = transform.position;
     }
 
     // Update is called once per frame
@@ -65,17 +73,32 @@ public class CameraHandle : MonoBehaviour
         targetX = Mathf.Clamp(targetX, minX, maxX);
         targetY = Mathf.Clamp(targetY, minY, maxY);
 
-        Vector3 pos = transform.position;
+        Vector3 pos = basePos;
         pos.x = Mathf.Lerp(pos.x, targetX, cam_speed * Time.deltaTime);
         pos.y = Mathf.Lerp(pos.y, targetY, cam_speed * Time.deltaTime);
         pos.y = Mathf.Min(pos.y, 0.02f);
-        transform.position = pos;
+        basePos = pos;
+
+        // Add the shake on top
+        Vector3 offset = Vector3.zero;
+        if (shakeTimer > 0f)
+        {
+            shakeTimer -= Time.deltaTime;
+            float fade = shakeTimer / shakeDuration;   // 1 at the start, 0 at the end
+            Vector2 shake = (Random.insideUnitCircle + shakeDir) * shakeStrength * fade;
+            offset = new Vector3(shake.x, shake.y, 0f);
+        }
+
+        transform.position = pos + offset;
 
     }
 
-    void screenShake(Vector3(0,0,0) dir,float time)
+    public void ScreenShake(Vector2 dir = default, float time = 0.15f, float strength = 0.15f)
     {
-
+        shakeDir = dir.normalized;
+        shakeDuration = time;
+        shakeTimer = time;
+        shakeStrength = strength;
     }
 
 }
