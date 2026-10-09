@@ -29,6 +29,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float maxFallSpeed = 20f;
     [SerializeField] private float fallSpeedAccel = 0.8f;
 
+    // AIR DASH PROPERTIES
+    [SerializeField] private float dashSpeed = 18f;
+    [SerializeField] private float dashDuration = 0.15f;
+    [SerializeField] private float dashEndMultiplier = 0.5f;   // speed multiplier when the dash ends
+    [SerializeField] private AudioClip dashSound;
+    [SerializeField, Range(0f, 3f)] private float dashVolume = 1f;
+    private bool hasAirDash = true;
+    private bool dashRequested;
+    private float dashTimer;
+    private Vector2 dashDir;
+
     [SerializeField] private float dropThroughTime = 0.3f;
     private bool droppingThrough;
     [SerializeField] private Collider2D Player1Collider;
@@ -50,6 +61,9 @@ public class PlayerMovement : MonoBehaviour
     private float jumpBufferTimer;
     private bool jumpReleased;
     private bool dropReleased;
+    [SerializeField] private AudioClip landSound;
+    private bool wasGrounded = true;
+    private float airTime;
     private Player player_movement;
 
     public PlayerId Id => playerId;
@@ -168,8 +182,16 @@ public class PlayerMovement : MonoBehaviour
 
         if (!inputLocked && allowJump && jumpAction.WasPressedThisFrame())
         {
-            jumpBufferTimer = jumpBufferTime;
-            body.transform.localScale = new Vector3(0.8f, 1.4f, 1f);
+            if (!grounded && hasAirDash)
+            {
+                // air dash instead of jumping if in the air
+                dashRequested = true;
+            }
+            else
+            {
+                jumpBufferTimer = jumpBufferTime;
+                body.transform.localScale = new Vector3(0.8f, 1.4f, 1f);
+            }
         }
         else
         {
@@ -195,6 +217,7 @@ public class PlayerMovement : MonoBehaviour
             anim.SetFloat("Speed", rb.linearVelocity.x * facing);
             anim.SetFloat("VelY", rb.linearVelocity.y);
             anim.SetBool("Grounded", grounded);
+            anim.SetBool("Dashing", dashTimer > 0f);
         }
     }
 
@@ -202,6 +225,44 @@ public class PlayerMovement : MonoBehaviour
     {
         bool grounded = IsGrounded();
         Vector2 vel = rb.linearVelocity;
+        if (grounded && !wasGrounded && airTime > 0.1f)
+        {
+            AudioManager.Instance.PlaySfx(landSound, 0.1f);
+        }
+        airTime = grounded ? 0f : airTime + Time.fixedDeltaTime;
+        wasGrounded = grounded;
+
+        // get air dash back once on ground
+        if (grounded && dashTimer <= 0f) hasAirDash = true;
+
+        // Use air dash
+        if (dashRequested)
+        {
+            dashRequested = false;
+            Vector2 stick = new Vector2(moveAction.ReadValue<float>(), dropAction.ReadValue<float>());
+            if (stick.magnitude < 0.2f)
+            {
+                stick = new Vector2(player_movement.flipped_facing ? -1f : 1f, 0f);
+            }
+
+            dashDir = stick.normalized;
+            dashTimer = dashDuration;
+            hasAirDash = false;
+            jumpBufferTimer = 0f;
+            AudioManager.Instance.PlaySfx(dashSound, 0.1f, dashVolume);
+        }
+
+        // fixed speed in one direction and no gravity
+        if (dashTimer > 0f)
+        {
+            dashTimer -= Time.fixedDeltaTime;
+            vel = dashDir * dashSpeed;
+            if (dashTimer <= 0f) vel *= dashEndMultiplier;
+            dropReleased = false;
+            jumpReleased = false;
+            rb.linearVelocity = vel;
+            return;
+        }
 
         float input = inputLocked ? 0f : moveAction.ReadValue<float>();
         float target = input * moveSpeed;
@@ -294,9 +355,14 @@ public class PlayerMovement : MonoBehaviour
     // Grounded when touching something that pushes up on us
     public bool IsGrounded()
     {
+        if (rb.linearVelocity.y > 0.1f) return false;
+
         int count = rb.GetContacts(contacts);
         for (int i = 0; i < count; i++)
         {
+            // Skips the off platform effector
+            if (!contacts[i].enabled) continue;
+
             if (contacts[i].normal.y > 0.5f) return true;
         }
         return false;
@@ -305,6 +371,14 @@ public class PlayerMovement : MonoBehaviour
     public PlayerId GetPlayerId()
     {
         return playerId;
+    }
+    public bool IsDashing() 
+    { 
+        return dashTimer > 0f; 
+    }
+    public Vector2 DashDirection() 
+    { 
+        return dashDir;
     }
     public bool ShootPressed()
     {
@@ -327,7 +401,9 @@ public class PlayerMovement : MonoBehaviour
         anim.SetFloat("Speed", 0f);
         anim.SetFloat("VelY", 0f);
         anim.SetBool("Grounded", true);
-
+        anim.SetBool("Dashing", false);
+        dashTimer = 0f;
+        hasAirDash = true;
         anim.Play("Idle", 0, 0f); // spawn as idle
     }
 }

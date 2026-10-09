@@ -643,8 +643,14 @@ MonoBehaviour:
   jumpBufferTime: 0.1
   maxFallSpeed: 20
   fallSpeedAccel: 0.8
+  dashSpeed: 18
+  dashDuration: 0.15
+  dashEndMultiplier: 0.5
+  dashSound: {fileID: 8300000, guid: a0e87b4093c88bb47b17250d8a046443, type: 3}
+  dashVolume: 0.55
   dropThroughTime: 0.3
   Player1Collider: {fileID: 0}
   Player2Collider: {fileID: 0}
   rightStickDirection: {x: 0, y: 0}
   inputLocked: 0
+  landSound: {fileID: 8300000, guid: 09e67fdda21b5b7499e41712a90654c3, type: 3}

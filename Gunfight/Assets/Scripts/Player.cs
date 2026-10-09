@@ -137,7 +137,11 @@ public class Player : MonoBehaviour
             {
                 flip_facing = true;
             }
-
+        // air dash direction
+        if (player.IsDashing() && Mathf.Abs(player.DashDirection().x) > 0.1f)
+        {
+            flip_facing = player.DashDirection().x < 0f;
+        }
         SetFacing(flip_facing);
     }
     void SetFacing(bool facing)

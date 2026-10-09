@@ -19,6 +19,7 @@ public class AudioManager : MonoBehaviour
 
     [Header("SFX")]
     [SerializeField] private AudioClip roundStartSfx;
+    [SerializeField] private AudioClip critSfx;
     [SerializeField, Range(0f, 1f)] private float sfxVolume = 1f;
 
     private const string EndScreenSceneName = "End Screen";
@@ -122,10 +123,14 @@ public class AudioManager : MonoBehaviour
         musicSource.Play();
     }
 
-    public void PlaySfx(AudioClip clip, float pitchVariation = 0f)
+    public void PlaySfx(AudioClip clip, float pitchVariation = 0f, float volume = 1f)
     {
         if (clip == null) return;
         sfxSource.pitch = 1f + Random.Range(-pitchVariation, pitchVariation);
-        sfxSource.PlayOneShot(clip, sfxVolume);
+        sfxSource.PlayOneShot(clip, sfxVolume * volume);
+    }
+    public void PlayCrit()
+    {
+        PlaySfx(critSfx, 0.05f, 0.2f);
     }
 }

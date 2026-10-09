@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameMaster : MonoBehaviour
 {
 
+    [SerializeField] public bool gunSteal = false;
     [SerializeField] private GameObject Player1;
     [SerializeField] private GameObject Player2;
     [SerializeField] private Transform Player1Spawn;
@@ -59,10 +60,10 @@ public class GameMaster : MonoBehaviour
     {
         // Hitlag
         Time.timeScale = 0f;
-        await Task.Delay(120);
+        await Task.Delay(160);
         Time.timeScale = 1f;
         if (this == null) return;
-
+        AudioManager.Instance.PlayCrit();
         // Stop player's input while round ends
         Player1Movement.inputLocked = true;
         Player2Movement.inputLocked = true;
